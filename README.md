@@ -1,5 +1,5 @@
 # DashSpigot [![Build](https://jenkins.dashnetwork.xyz/job/DashSpigot/badge/icon)](https://jenkins.dashnetwork.xyz/job/DashSpigot/)
-Fork of [PandaSpigot](https://github.com/hpfxd/PandaSpigot) 1.8.8 focused on bug fixes and API backports.
+Fork of [DashSpigot](https://github.com/dashnetworkxyz/DashSpigot) 1.8.8 focused on bug fixes and API backports.
 
 See a full list of patches [here](./patches/dashspigot/).
 
