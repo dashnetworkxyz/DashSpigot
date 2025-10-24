@@ -6,7 +6,7 @@ Subject: [PATCH] Fix SPIGOT-509: Negative or zero quantity items made when
 
 
 diff --git a/src/main/java/net/minecraft/server/Container.java b/src/main/java/net/minecraft/server/Container.java
-index 7fc495792c1caf81511d8197b05e2d0b5ddb71b7..3030f4632b301652d3278ab2fbe0d8d00dd47e8b 100644
+index 7fc495792c1caf81511d8197b05e2d0b5ddb71b7..1545c1bfabe47b4e0d0610679eb160e5d5ea0ebc 100644
 --- a/src/main/java/net/minecraft/server/Container.java
 +++ b/src/main/java/net/minecraft/server/Container.java
 @@ -166,7 +166,12 @@ public abstract class Container {
@@ -14,8 +14,8 @@ index 7fc495792c1caf81511d8197b05e2d0b5ddb71b7..3030f4632b301652d3278ab2fbe0d8d0
                              }
  
 -                            l -= itemstack2.count - j1;
-+                            // DashSpigot start
-+                            if (dragType != 2 || !(entityhuman instanceof EntityPlayer && ((EntityPlayer) entityhuman).playerInteractManager.getGameMode().d())) { // DashSpigot
++                            // DashSpigot start - Fix SPIGOT-509: Negative or zero quantity items made when middle click dragging in creative
++                            if (dragType != 2 || !(entityhuman instanceof EntityPlayer && ((EntityPlayer) entityhuman).playerInteractManager.getGameMode().d())) {
 +                                l -= itemstack2.count - j1;
 +                            }
 +                            // DashSpigot end
