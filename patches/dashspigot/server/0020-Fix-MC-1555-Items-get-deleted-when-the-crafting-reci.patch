@@ -1,0 +1,58 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Thu, 23 Oct 2025 23:31:37 -0600
+Subject: [PATCH] Fix MC-1555: Items get deleted when the crafting recipe
+ overflows the inventory
+
+
+diff --git a/src/main/java/net/minecraft/server/ContainerMerchant.java b/src/main/java/net/minecraft/server/ContainerMerchant.java
+index f8aa2ae8a97c55f59c2403886b5e566fc866628b..32c8415e20e79937819e9ef9548c999523116803 100644
+--- a/src/main/java/net/minecraft/server/ContainerMerchant.java
++++ b/src/main/java/net/minecraft/server/ContainerMerchant.java
+@@ -106,6 +106,12 @@ public class ContainerMerchant extends Container {
+             }
+ 
+             slot.a(entityhuman, itemstack1);
++
++            // DashSpigot start - Fix MC-1555: Items get deleted when the crafting recipe overflows the inventory
++            if (i == 0) {
++                entityhuman.drop(itemstack1, false);
++            }
++            // DashSpigot end
+         }
+ 
+         return itemstack;
+diff --git a/src/main/java/net/minecraft/server/ContainerPlayer.java b/src/main/java/net/minecraft/server/ContainerPlayer.java
+index a86f896b44dbdfe3d46e2e95634fbc9c7038aa2d..d65d4d07a0efe0c8264f06297b34b702eb27cd3e 100644
+--- a/src/main/java/net/minecraft/server/ContainerPlayer.java
++++ b/src/main/java/net/minecraft/server/ContainerPlayer.java
+@@ -144,6 +144,12 @@ public class ContainerPlayer extends Container {
+             }
+ 
+             slot.a(entityhuman, itemstack1);
++
++            // DashSpigot start - Fix MC-1555: Items get deleted when the crafting recipe overflows the inventory
++            if (i == 0) {
++                entityhuman.drop(itemstack1, false);
++            }
++            // DashSpigot end
+         }
+ 
+         return itemstack;
+diff --git a/src/main/java/net/minecraft/server/ContainerWorkbench.java b/src/main/java/net/minecraft/server/ContainerWorkbench.java
+index 48d524e54a6b9b13dd6d4b3863d328b97bce6a7e..e6bca129ed97e5657405e15a7e1739fbbbac92ca 100644
+--- a/src/main/java/net/minecraft/server/ContainerWorkbench.java
++++ b/src/main/java/net/minecraft/server/ContainerWorkbench.java
+@@ -123,6 +123,12 @@ public class ContainerWorkbench extends Container {
+             }
+ 
+             slot.a(entityhuman, itemstack1);
++
++            // DashSpigot start - Fix MC-1555: Items get deleted when the crafting recipe overflows the inventory
++            if (i == 0) {
++                entityhuman.drop(itemstack1, false);
++            }
++            // DashSpigot end
+         }
+ 
+         return itemstack;
