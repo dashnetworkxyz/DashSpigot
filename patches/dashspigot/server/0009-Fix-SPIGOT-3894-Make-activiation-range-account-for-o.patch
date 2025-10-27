@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MasterDash5 <constant4337@molecularmail.com>
 Date: Thu, 16 Oct 2025 10:30:17 -0600
-Subject: [PATCH] Fix SPIGOT-3894: Make activiation range account for on edge
+Subject: [PATCH] Fix SPIGOT-3894: Make activation range account for on edge
  entities
 
 
@@ -14,7 +14,7 @@ index 768a4398c926cc378284bb14b7c175be4a056223..27fed99adec681e09548b000e9c00ef6
  
          // Spigot start
 -        if (!org.spigotmc.ActivationRange.checkIfActive(entity)) {
-+        if (!org.spigotmc.ActivationRange.checkIfActive(entity, flag)) { // DashSpigot - Fix SPIGOT-3894: Make activiation range account for on edge entities
++        if (!org.spigotmc.ActivationRange.checkIfActive(entity, flag)) { // DashSpigot - Fix SPIGOT-3894: Make activation range account for on edge entities
              entity.ticksLived++;
              entity.inactiveTick();
              // PaperSpigot start - Remove entities in unloaded chunks
@@ -26,7 +26,7 @@ index 90b7238567952a7ee365f9c1fef3d9a5e10e7a80..742fe11ca6db6a8796398726c17964cf
       */
      public static boolean checkIfActive(Entity entity)
      {
-+    // DashSpigot start - Fix SPIGOT-3894: Make activiation range account for on edge entities
++    // DashSpigot start - Fix SPIGOT-3894: Make activation range account for on edge entities
 +        return checkIfActive(entity, false);
 +    }
 +
@@ -48,7 +48,7 @@ index 90b7238567952a7ee365f9c1fef3d9a5e10e7a80..742fe11ca6db6a8796398726c17964cf
          // Make sure not on edge of unloaded chunk
          Chunk chunk = entity.world.getChunkIfLoaded( x >> 4, z >> 4 );
 -        if ( isActive && !( chunk != null && chunk.areNeighborsLoaded( 1 ) ) )
-+        if ( isActive && skipOnEdge && !( chunk != null && chunk.areNeighborsLoaded( 1 ) ) ) // DashSpigot - Fix SPIGOT-3894: Make activiation range account for on edge entities
++        if ( isActive && skipOnEdge && !( chunk != null && chunk.areNeighborsLoaded( 1 ) ) ) // DashSpigot - Fix SPIGOT-3894: Make activation range account for on edge entities
          {
              isActive = false;
          }

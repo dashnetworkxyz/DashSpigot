@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MasterDash5 <constant4337@molecularmail.com>
 Date: Wed, 15 Oct 2025 11:27:23 -0600
-Subject: [PATCH] Fix MC-54109: Wolfs collar is orange insted of red
+Subject: [PATCH] Fix MC-54109: Wolfs collar is orange instead of red
 
 
 diff --git a/src/main/java/net/minecraft/server/EntityWolf.java b/src/main/java/net/minecraft/server/EntityWolf.java
@@ -13,7 +13,7 @@ index b262f3ac250d6f185ff7f466895df01dad28eb98..59e0f94ce9c6da39766e074a0abc1371
          this.datawatcher.a(18, new Float(this.getHealth()));
          this.datawatcher.a(19, new Byte((byte) 0));
 -        this.datawatcher.a(20, new Byte((byte) EnumColor.RED.getColorIndex()));
-+        this.datawatcher.a(20, new Byte((byte) EnumColor.RED.getInvColorIndex())); // DashSpigot - Fix MC-54109: Wolfs collar is orange insted of red
++        this.datawatcher.a(20, new Byte((byte) EnumColor.RED.getInvColorIndex())); // DashSpigot - Fix MC-54109: Wolfs collar is orange instead of red
      }
  
      protected void a(BlockPosition blockposition, Block block) {
