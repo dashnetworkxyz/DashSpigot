@@ -1,0 +1,64 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Aikar <aikar@aikar.co>
+Date: Sun, 5 Feb 2017 19:17:28 -0500
+Subject: [PATCH] Shame on you Mojang
+
+Someone wrote some horrible code that throws a world accessing task
+onto the HTTP DOWNLOADER Thread Pool, for an activity that is not even
+heavy enough to warrant async operation.
+
+This then triggers async chunk loads!
+
+What in the hell were you thinking?
+
+diff --git a/src/main/java/net/minecraft/server/BlockBeacon.java b/src/main/java/net/minecraft/server/BlockBeacon.java
+index 71b536c0d3c3433fe124bf0f81795a11d3867560..e3cc8b0792b3e2b771519eb4bdf1d6b0e372f8c2 100644
+--- a/src/main/java/net/minecraft/server/BlockBeacon.java
++++ b/src/main/java/net/minecraft/server/BlockBeacon.java
+@@ -62,8 +62,12 @@ public class BlockBeacon extends BlockContainer {
+     }
+ 
+     public static void f(final World world, final BlockPosition blockposition) {
++        // PandaSpigot start
++        /*
+         HttpUtilities.a.submit(new Runnable() {
+             public void run() {
++        */
++        // PandaSpigot end
+                 Chunk chunk = world.getChunkAtWorldCoords(blockposition);
+ 
+                 for (int i = blockposition.getY() - 1; i >= 0; --i) {
+@@ -76,8 +80,12 @@ public class BlockBeacon extends BlockContainer {
+                     IBlockData iblockdata = world.getType(blockposition1);
+ 
+                     if (iblockdata.getBlock() == Blocks.BEACON) {
++                        // PandaSpigot start
++                        /*
+                         ((WorldServer) world).postToMainThread(new Runnable() {
+                             public void run() {
++                        */
++                        // PandaSpigot end
+                                 TileEntity tileentity = world.getTileEntity(blockposition1);
+ 
+                                 if (tileentity instanceof TileEntityBeacon) {
+@@ -85,12 +93,20 @@ public class BlockBeacon extends BlockContainer {
+                                     world.playBlockAction(blockposition1, Blocks.BEACON, 1, 0);
+                                 }
+ 
++                    // PandaSpigot start
++                    /*
+                             }
+                         });
++                    */
++                    // PandaSpigot end
+                     }
+                 }
+ 
++        // PandaSpigot start
++        /*
+             }
+         });
++        */
++        // PandaSpigot end
+     }
+ }
