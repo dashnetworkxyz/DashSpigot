@@ -6,7 +6,7 @@ Subject: [PATCH] Fix SPIGOT-3894: Make activation range account for on edge
 
 
 diff --git a/src/main/java/net/minecraft/server/World.java b/src/main/java/net/minecraft/server/World.java
-index 768a4398c926cc378284bb14b7c175be4a056223..27fed99adec681e09548b000e9c00ef68986d802 100644
+index 768a4398c926cc378284bb14b7c175be4a056223..174a36f807f6ee46327c5a784579dbcee61e25e0 100644
 --- a/src/main/java/net/minecraft/server/World.java
 +++ b/src/main/java/net/minecraft/server/World.java
 @@ -1761,7 +1761,7 @@ public abstract class World implements IBlockAccess {
@@ -19,7 +19,7 @@ index 768a4398c926cc378284bb14b7c175be4a056223..27fed99adec681e09548b000e9c00ef6
              entity.inactiveTick();
              // PaperSpigot start - Remove entities in unloaded chunks
 diff --git a/src/main/java/org/spigotmc/ActivationRange.java b/src/main/java/org/spigotmc/ActivationRange.java
-index 90b7238567952a7ee365f9c1fef3d9a5e10e7a80..742fe11ca6db6a8796398726c17964cfa742ab4b 100644
+index 90b7238567952a7ee365f9c1fef3d9a5e10e7a80..3d88819421e40373490d2900aa88bf8ce8e37d55 100644
 --- a/src/main/java/org/spigotmc/ActivationRange.java
 +++ b/src/main/java/org/spigotmc/ActivationRange.java
 @@ -253,6 +253,20 @@ public class ActivationRange

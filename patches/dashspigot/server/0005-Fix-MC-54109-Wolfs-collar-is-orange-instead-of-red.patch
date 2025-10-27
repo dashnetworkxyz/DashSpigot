@@ -5,7 +5,7 @@ Subject: [PATCH] Fix MC-54109: Wolfs collar is orange instead of red
 
 
 diff --git a/src/main/java/net/minecraft/server/EntityWolf.java b/src/main/java/net/minecraft/server/EntityWolf.java
-index b262f3ac250d6f185ff7f466895df01dad28eb98..59e0f94ce9c6da39766e074a0abc137122f876e9 100644
+index b262f3ac250d6f185ff7f466895df01dad28eb98..dd43b6ebedd285f94c98515041f35b7da8db4849 100644
 --- a/src/main/java/net/minecraft/server/EntityWolf.java
 +++ b/src/main/java/net/minecraft/server/EntityWolf.java
 @@ -89,7 +89,7 @@ public class EntityWolf extends EntityTameableAnimal {
