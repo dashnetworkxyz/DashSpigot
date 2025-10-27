@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Mon, 27 Oct 2025 11:41:24 -0600
+Subject: [PATCH] Fix MC-1685: Unable to write in a blank Book and Quill after
+ renaming
+
+
+diff --git a/src/main/java/net/minecraft/server/ItemWrittenBook.java b/src/main/java/net/minecraft/server/ItemWrittenBook.java
+index d179049724abe8d5e7a914835d17df59e606f78b..57e818b19f1a2a6775e09724d24089ac0746e13d 100644
+--- a/src/main/java/net/minecraft/server/ItemWrittenBook.java
++++ b/src/main/java/net/minecraft/server/ItemWrittenBook.java
+@@ -70,6 +70,12 @@ public class ItemWrittenBook extends Item {
+                         nbttaglist.a(i, new NBTTagString(IChatBaseComponent.ChatSerializer.a((IChatBaseComponent) object)));
+                     }
+ 
++                    // DashSpigot start - Fix MC-1685: Unable to write in a blank Book and Quill after renaming
++                    if (itemstack.getItem() instanceof ItemBookAndQuill && nbttaglist.isEmpty()) {
++                        nbttaglist.add(new NBTTagString(""));
++                    }
++                    // DashSpigot end
++
+                     nbttagcompound.set("pages", nbttaglist);
+                     if (entityhuman instanceof EntityPlayer && entityhuman.bZ() == itemstack) {
+                         Slot slot = entityhuman.activeContainer.getSlot(entityhuman.inventory, entityhuman.inventory.itemInHandIndex);
