@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Sun, 2 Nov 2025 16:44:24 -0700
+Subject: [PATCH] Port ArrowCollideEvent
+
+
+diff --git a/src/main/java/net/techcable/tacospigot/event/entity/ArrowCollideEvent.java b/src/main/java/net/techcable/tacospigot/event/entity/ArrowCollideEvent.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..cb8eb4dec6797db7baa7dfff75d4bfbb39877180
+--- /dev/null
++++ b/src/main/java/net/techcable/tacospigot/event/entity/ArrowCollideEvent.java
+@@ -0,0 +1,29 @@
++package net.techcable.tacospigot.event.entity;
++
++import com.destroystokyo.paper.event.entity.ProjectileCollideEvent;
++import org.bukkit.entity.Arrow;
++import org.bukkit.entity.Entity;
++
++/**
++ * Called when an arrow collides with an entity
++ * <p>
++ * This event is called <b>before</b> {@link org.bukkit.event.entity.EntityDamageByEntityEvent}, and
++ * cancelling it will allow the arrow to continue flying
++ */
++public class ArrowCollideEvent extends ProjectileCollideEvent {
++
++    public ArrowCollideEvent(Arrow arrow, Entity collidedWith) {
++        super(arrow, collidedWith);
++    }
++
++    /**
++     * Get the arrow that collided
++     *
++     * @return The arrow that collided
++     */
++    @Override
++    public Arrow getEntity() {
++        return (Arrow) entity;
++    }
++
++}

@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Sun, 2 Nov 2025 16:44:39 -0700
+Subject: [PATCH] Port ArrowCollideEvent
+
+
+diff --git a/src/main/java/net/minecraft/server/EntityArrow.java b/src/main/java/net/minecraft/server/EntityArrow.java
+index beb7180e1d5dd4f2e439cb372dd1f7602a5acf49..1f5746f45cc6f6897b65c85a12f18d8a7c98621b 100644
+--- a/src/main/java/net/minecraft/server/EntityArrow.java
++++ b/src/main/java/net/minecraft/server/EntityArrow.java
+@@ -232,7 +232,10 @@ public class EntityArrow extends Entity implements IProjectile {
+ 
+             // PandaSpigot start - Call ProjectileCollideEvent
+             if (movingobjectposition != null && movingobjectposition.entity != null) {
+-                com.destroystokyo.paper.event.entity.ProjectileCollideEvent event = org.bukkit.craftbukkit.event.CraftEventFactory.callProjectileCollideEvent(this, movingobjectposition);
++                // DashSpigot start - Port ArrowCollideEvent
++                net.techcable.tacospigot.event.entity.ArrowCollideEvent event = new net.techcable.tacospigot.event.entity.ArrowCollideEvent((org.bukkit.entity.Arrow) this.getBukkitEntity(), movingobjectposition.entity.getBukkitEntity());
++                org.bukkit.Bukkit.getPluginManager().callEvent(event);
++                // DashSpigot end
+                 if (event.isCancelled()) {
+                     movingobjectposition = null;
+                 }
