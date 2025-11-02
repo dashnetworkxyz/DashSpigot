@@ -1,0 +1,67 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Sun, 2 Nov 2025 15:37:08 -0700
+Subject: [PATCH] Stuck arrows API
+
+
+diff --git a/src/main/java/net/minecraft/server/EntityArrow.java b/src/main/java/net/minecraft/server/EntityArrow.java
+index ecde0d9ec034024355c09b249694ce118b3b10bc..beb7180e1d5dd4f2e439cb372dd1f7602a5acf49 100644
+--- a/src/main/java/net/minecraft/server/EntityArrow.java
++++ b/src/main/java/net/minecraft/server/EntityArrow.java
+@@ -273,7 +273,13 @@ public class EntityArrow extends Entity implements IProjectile {
+                             EntityLiving entityliving = (EntityLiving) movingobjectposition.entity;
+ 
+                             if (!this.world.isClientSide) {
+-                                entityliving.o(entityliving.bv() + 1);
++                                // DashSpigot start - Stuck arrows API
++                                xyz.dashnetwork.dashspigot.event.entity.EntityArrowStuckEvent arrowStuckEvent = new xyz.dashnetwork.dashspigot.event.entity.EntityArrowStuckEvent((LivingEntity) entityliving.getBukkitEntity(), entityliving.bv() + 1);
++                                org.bukkit.Bukkit.getPluginManager().callEvent(arrowStuckEvent);
++                                if (!arrowStuckEvent.isCancelled()) {
++                                    entityliving.o(arrowStuckEvent.getArrowsStuck());
++                                }
++                                // DashSpigot end
+                             }
+ 
+                             if (this.knockbackStrength > 0) {
+diff --git a/src/main/java/net/minecraft/server/EntityLiving.java b/src/main/java/net/minecraft/server/EntityLiving.java
+index 32752dfad24bc7883b1ab52e29834f1aa6fa60c6..73a778d2f985a1657196f82ab4b7a465eafc86d2 100644
+--- a/src/main/java/net/minecraft/server/EntityLiving.java
++++ b/src/main/java/net/minecraft/server/EntityLiving.java
+@@ -1483,7 +1483,13 @@ public abstract class EntityLiving extends Entity {
+ 
+                 --this.at;
+                 if (this.at <= 0) {
+-                    this.o(i - 1);
++                    // DashSpigot start - Stuck arrows API
++                    xyz.dashnetwork.dashspigot.event.entity.EntityArrowStuckEvent arrowStuckEvent = new xyz.dashnetwork.dashspigot.event.entity.EntityArrowStuckEvent((LivingEntity) this.getBukkitEntity(), i - 1);
++                    org.bukkit.Bukkit.getPluginManager().callEvent(arrowStuckEvent);
++                    if (!arrowStuckEvent.isCancelled()) {
++                        this.o(arrowStuckEvent.getArrowsStuck());
++                    }
++                    // DashSpigot end
+                 }
+             }
+ 
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
+index 3e3a04808196e722fd1dcdae638bfcf45a79f4d9..ebb36a9ccb8d4ae6d8498f843ec591039c82c98e 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
+@@ -463,6 +463,18 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+         return true;
+     }
+ 
++    // DashSpigot start - Stuck arrows API
++    @Override
++    public int getArrowsStuck() {
++        return getHandle().bv();
++    }
++
++    @Override
++    public void setArrowsStuck(int arrows) {
++        getHandle().o(arrows);
++    }
++    // DashSpigot end
++
+     @Deprecated
+     public int _INVALID_getLastDamage() {
+         return NumberConversions.ceil(getLastDamage());
