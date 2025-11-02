@@ -5,67 +5,64 @@ Subject: [PATCH] Fix spawn location logic
 
 
 diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
-index d981c89fd182bae75c928616edc5944f6ee860f8..80c7900aeceb3bf217b0ab56e9d8d0f2ad10529c 100644
+index 7933d3191b9f61b4880d85ba99126bf9221a3dff..1e757c65426abf15428beb9b04c73fac2d48bbda 100644
 --- a/src/main/java/net/minecraft/server/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/EntityPlayer.java
-@@ -85,11 +85,31 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+@@ -86,22 +86,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
          this.viewDistance = world.spigotConfig.viewDistance; // PaperSpigot - Player view distance API
          playerinteractmanager.player = this;
          this.playerInteractManager = playerinteractmanager;
+-        BlockPosition blockposition = worldserver.getSpawn();
+-
+-        if (!worldserver.worldProvider.o() && worldserver.getWorldData().getGameType() != WorldSettings.EnumGamemode.ADVENTURE) {
+-            int i = Math.max(5, minecraftserver.getSpawnProtection() - 6);
+-            int j = MathHelper.floor(worldserver.getWorldBorder().b((double) blockposition.getX(), (double) blockposition.getZ()));
+-
+-            if (j < i) {
+-                i = j;
+-            }
+-
+-            if (j <= 1) {
+-                i = 1;
+-            }
+-
+-            blockposition = worldserver.r(blockposition.a(this.random.nextInt(i * 2) - i, 0, this.random.nextInt(i * 2) - i));
+-        }
 +        BlockPosition blockposition = getSpawnPoint(minecraftserver, worldserver); // DashSpigot - Move spawn point logic
-+
-+        this.server = minecraftserver;
-+        this.bK = minecraftserver.getPlayerList().a((EntityHuman) this);
-+        this.S = 0.0F;
-+        this.setPositionRotation(blockposition, 0.0F, 0.0F);
-+
-+        while (!worldserver.getCubes(this, this.getBoundingBox()).isEmpty() && this.locY < 255.0D) {
-+            this.setPosition(this.locX, this.locY + 1.0D, this.locZ);
-+        }
-+
-+        // CraftBukkit start
-+        this.displayName = net.kyori.adventure.text.Component.text(this.getName()); // PandaSpigot - Adventure
-+        // this.canPickUpLoot = true; TODO
-+        this.maxHealthCache = this.getMaxHealth();
-+        // CraftBukkit end
-+    }
-+
+ 
+         this.server = minecraftserver;
+         this.bK = minecraftserver.getPlayerList().a((EntityHuman) this);
+@@ -120,6 +105,29 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+         // CraftBukkit end
+     }
+ 
 +    // DashSpigot start - Move spawn point logic
 +    public final BlockPosition getSpawnPoint(MinecraftServer minecraftserver, WorldServer worldserver) {
-         BlockPosition blockposition = worldserver.getSpawn();
- 
-         if (!worldserver.worldProvider.o() && worldserver.getWorldData().getGameType() != WorldSettings.EnumGamemode.ADVENTURE) {
-             int i = Math.max(5, minecraftserver.getSpawnProtection() - 6);
--            int j = MathHelper.floor(worldserver.getWorldBorder().b((double) blockposition.getX(), (double) blockposition.getZ()));
++        BlockPosition blockposition = worldserver.getSpawn();
++
++        if (!worldserver.worldProvider.o() && worldserver.getWorldData().getGameType() != WorldSettings.EnumGamemode.ADVENTURE) {
++            int i = Math.max(5, minecraftserver.getSpawnProtection() - 6);
 +            int j = MathHelper.floor(worldserver.getWorldBorder().b(blockposition.getX(), blockposition.getZ()));
- 
-             if (j < i) {
-                 i = j;
-@@ -102,21 +122,9 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
-             blockposition = worldserver.r(blockposition.a(this.random.nextInt(i * 2) - i, 0, this.random.nextInt(i * 2) - i));
-         }
- 
--        this.server = minecraftserver;
--        this.bK = minecraftserver.getPlayerList().a((EntityHuman) this);
--        this.S = 0.0F;
--        this.setPositionRotation(blockposition, 0.0F, 0.0F);
--
--        while (!worldserver.getCubes(this, this.getBoundingBox()).isEmpty() && this.locY < 255.0D) {
--            this.setPosition(this.locX, this.locY + 1.0D, this.locZ);
--        }
--
--        // CraftBukkit start
--        this.displayName = net.kyori.adventure.text.Component.text(this.getName()); // PandaSpigot - Adventure
--        // this.canPickUpLoot = true; TODO
--        this.maxHealthCache = this.getMaxHealth();
--        // CraftBukkit end
++
++            if (j < i) {
++                i = j;
++            }
++
++            if (j <= 1) {
++                i = 1;
++            }
++
++            blockposition = worldserver.r(blockposition.a(this.random.nextInt(i * 2) - i, 0, this.random.nextInt(i * 2) - i));
++        }
++
 +        return blockposition;
-     }
++    }
 +    // DashSpigot end
- 
++
      public void a(NBTTagCompound nbttagcompound) {
          super.a(nbttagcompound);
-@@ -526,10 +534,14 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+         if (nbttagcompound.hasKeyOfType("playerGameType", 99)) {
+@@ -528,10 +536,14 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
          boolean endPortal = this.dimension == 1 && i == 1;
          if (endPortal) {
              this.b((Statistic) AchievementList.D);
@@ -81,7 +78,7 @@ index d981c89fd182bae75c928616edc5944f6ee860f8..80c7900aeceb3bf217b0ab56e9d8d0f2
              }
          // PaperSpigot end
          } else {
-@@ -549,12 +561,16 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+@@ -551,12 +563,16 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
              } else {
                  this.b((Statistic) AchievementList.y);
              }
