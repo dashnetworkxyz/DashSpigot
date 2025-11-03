@@ -5,7 +5,7 @@ Subject: [PATCH] Stuck arrows API
 
 
 diff --git a/src/main/java/net/minecraft/server/EntityArrow.java b/src/main/java/net/minecraft/server/EntityArrow.java
-index ecde0d9ec034024355c09b249694ce118b3b10bc..beb7180e1d5dd4f2e439cb372dd1f7602a5acf49 100644
+index ecde0d9ec034024355c09b249694ce118b3b10bc..b3c1b9c394e1cc4e7e823fdf537b33f07a68d77d 100644
 --- a/src/main/java/net/minecraft/server/EntityArrow.java
 +++ b/src/main/java/net/minecraft/server/EntityArrow.java
 @@ -273,7 +273,13 @@ public class EntityArrow extends Entity implements IProjectile {
@@ -14,17 +14,17 @@ index ecde0d9ec034024355c09b249694ce118b3b10bc..beb7180e1d5dd4f2e439cb372dd1f760
                              if (!this.world.isClientSide) {
 -                                entityliving.o(entityliving.bv() + 1);
 +                                // DashSpigot start - Stuck arrows API
-+                                xyz.dashnetwork.dashspigot.event.entity.EntityArrowStuckEvent arrowStuckEvent = new xyz.dashnetwork.dashspigot.event.entity.EntityArrowStuckEvent((LivingEntity) entityliving.getBukkitEntity(), entityliving.bv() + 1);
-+                                org.bukkit.Bukkit.getPluginManager().callEvent(arrowStuckEvent);
-+                                if (!arrowStuckEvent.isCancelled()) {
-+                                    entityliving.o(arrowStuckEvent.getArrowsStuck());
++                                org.bukkit.event.entity.ArrowBodyCountChangeEvent arrowBodyCountChangeEvent = new org.bukkit.event.entity.ArrowBodyCountChangeEvent((LivingEntity) entityliving.getBukkitEntity(), entityliving.bv(), entityliving.bv() + 1, false);
++                                org.bukkit.Bukkit.getPluginManager().callEvent(arrowBodyCountChangeEvent);
++                                if (!arrowBodyCountChangeEvent.isCancelled()) {
++                                    entityliving.o(arrowBodyCountChangeEvent.getNewAmount());
 +                                }
 +                                // DashSpigot end
                              }
  
                              if (this.knockbackStrength > 0) {
 diff --git a/src/main/java/net/minecraft/server/EntityLiving.java b/src/main/java/net/minecraft/server/EntityLiving.java
-index 32752dfad24bc7883b1ab52e29834f1aa6fa60c6..73a778d2f985a1657196f82ab4b7a465eafc86d2 100644
+index 32752dfad24bc7883b1ab52e29834f1aa6fa60c6..4a72830071791321a2670302747fb36a20023b76 100644
 --- a/src/main/java/net/minecraft/server/EntityLiving.java
 +++ b/src/main/java/net/minecraft/server/EntityLiving.java
 @@ -1483,7 +1483,13 @@ public abstract class EntityLiving extends Entity {
@@ -33,32 +33,71 @@ index 32752dfad24bc7883b1ab52e29834f1aa6fa60c6..73a778d2f985a1657196f82ab4b7a465
                  if (this.at <= 0) {
 -                    this.o(i - 1);
 +                    // DashSpigot start - Stuck arrows API
-+                    xyz.dashnetwork.dashspigot.event.entity.EntityArrowStuckEvent arrowStuckEvent = new xyz.dashnetwork.dashspigot.event.entity.EntityArrowStuckEvent((LivingEntity) this.getBukkitEntity(), i - 1);
-+                    org.bukkit.Bukkit.getPluginManager().callEvent(arrowStuckEvent);
-+                    if (!arrowStuckEvent.isCancelled()) {
-+                        this.o(arrowStuckEvent.getArrowsStuck());
++                    org.bukkit.event.entity.ArrowBodyCountChangeEvent arrowBodyCountChangeEvent = new org.bukkit.event.entity.ArrowBodyCountChangeEvent((LivingEntity) this.getBukkitEntity(), i, i - 1, false);
++                    org.bukkit.Bukkit.getPluginManager().callEvent(arrowBodyCountChangeEvent);
++                    if (!arrowBodyCountChangeEvent.isCancelled()) {
++                        this.o(arrowBodyCountChangeEvent.getNewAmount());
 +                    }
 +                    // DashSpigot end
                  }
              }
  
+diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
+index 1e757c65426abf15428beb9b04c73fac2d48bbda..46a90c5e43692bcfd30d007783a765eed6778fb3 100644
+--- a/src/main/java/net/minecraft/server/EntityPlayer.java
++++ b/src/main/java/net/minecraft/server/EntityPlayer.java
+@@ -1227,6 +1227,13 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+         this.expTotal = this.newTotalExp;
+         this.exp = 0;
+         this.deathTicks = 0;
++        // DashSpigot start - Stuck arrows API
++        org.bukkit.event.entity.ArrowBodyCountChangeEvent arrowBodyCountChangeEvent = new org.bukkit.event.entity.ArrowBodyCountChangeEvent(getBukkitEntity(), bv(), 0, true);
++        Bukkit.getPluginManager().callEvent(arrowBodyCountChangeEvent);
++        if (!arrowBodyCountChangeEvent.isCancelled()) {
++            o(arrowBodyCountChangeEvent.getNewAmount());
++        }
++        // DashSpigot end
+         this.removeAllEffects();
+         this.updateEffects = true;
+         this.activeContainer = this.defaultContainer;
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index 3e3a04808196e722fd1dcdae638bfcf45a79f4d9..ebb36a9ccb8d4ae6d8498f843ec591039c82c98e 100644
+index 3e3a04808196e722fd1dcdae638bfcf45a79f4d9..87bd9096611f954b12b4bee47d02660ad69fa7f2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-@@ -463,6 +463,18 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+@@ -463,6 +463,39 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
          return true;
      }
  
 +    // DashSpigot start - Stuck arrows API
 +    @Override
-+    public int getArrowsStuck() {
++    public int getArrowCooldown() {
++        return getHandle().at;
++    }
++
++    @Override
++    public void setArrowCooldown(int ticks) {
++        getHandle().at = ticks;
++    }
++
++    @Override
++    public int getArrowsInBody() {
 +        return getHandle().bv();
 +    }
 +
 +    @Override
-+    public void setArrowsStuck(int arrows) {
-+        getHandle().o(arrows);
++    public void setArrowsInBody(int count, boolean fireEvent) {
++        if (fireEvent) {
++            org.bukkit.event.entity.ArrowBodyCountChangeEvent event = new org.bukkit.event.entity.ArrowBodyCountChangeEvent(this, getArrowsInBody(), count, false);
++            org.bukkit.Bukkit.getPluginManager().callEvent(event);
++
++            if (event.isCancelled()) {
++                return;
++            }
++
++            count = event.getNewAmount();
++        }
++
++        getHandle().o(count);
 +    }
 +    // DashSpigot end
 +
