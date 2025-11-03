@@ -1,0 +1,242 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Sun, 2 Nov 2025 20:36:13 -0700
+Subject: [PATCH] Update Resource Pack API
+
+
+diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
+index a67a54fecb8e9290f9615254aeb664bae515bb13..4acce732c1598e19131ae4c3d27567a0e7469139 100644
+--- a/src/main/java/org/bukkit/entity/Player.java
++++ b/src/main/java/org/bukkit/entity/Player.java
+@@ -1126,6 +1126,7 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+      */
+     public float getWalkSpeed();
+ 
++    // DashSpigot start - Update Resource Pack API
+     /**
+      * Request that the player's client download and switch texture packs.
+      * <p>
+@@ -1141,21 +1142,26 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+      * Notes:
+      * <ul>
+      * <li>Players can disable server textures on their client, in which
+-     *     case this method will have no affect on them.
++     *     case this method will have no effect on them.
+      * <li>There is no concept of resetting texture packs back to default
+      *     within Minecraft, so players will have to relog to do so.
+      * </ul>
++     * <li>The request is sent with "null" as the hash. This might result
++     *     in newer versions not loading the pack correctly.
++     * </ul>
+      *
+      * @param url The URL from which the client will download the texture
+      *     pack. The string must contain only US-ASCII characters and should
+      *     be encoded as per RFC 1738.
+      * @throws IllegalArgumentException Thrown if the URL is null.
+      * @throws IllegalArgumentException Thrown if the URL is too long.
+-     * @deprecated Minecraft no longer uses textures packs. Instead you
++     * @deprecated Minecraft no longer uses texture packs. Instead, you
+      *     should use {@link #setResourcePack(String)}.
+      */
+     @Deprecated
+-    public void setTexturePack(String url);
++    default void setTexturePack(String url) {
++        setResourcePack(url);
++    }
+ 
+     /**
+      * Request that the player's client download and switch resource packs.
+@@ -1163,8 +1169,8 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+      * The player's client will download the new resource pack asynchronously
+      * in the background, and will automatically switch to it once the
+      * download is complete. If the client has downloaded and cached the same
+-     * resource pack in the past, it will perform a quick timestamp check
+-     * over the network to determine if the resource pack has changed and
++     * resource pack in the past, it will perform a file size check against
++     * the response content to determine if the resource pack has changed and
+      * needs to be downloaded again. When this request is sent for the very
+      * first time from a given server, the client will first display a
+      * confirmation GUI to the player before proceeding with the download.
+@@ -1172,10 +1178,15 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+      * Notes:
+      * <ul>
+      * <li>Players can disable server resources on their client, in which
+-     *     case this method will have no affect on them.
++     *     case this method will have no effect on them. Use the
++     *     {@link org.bukkit.event.player.PlayerResourcePackStatusEvent} to
++     *     figure out whether the player loaded the pack!
+      * <li>There is no concept of resetting resource packs back to default
+      *     within Minecraft, so players will have to relog to do so.
+      * </ul>
++     * <li>The request is sent with "null" as the hash. This might result
++     *     in newer versions not loading the pack correctly.
++     * </ul>
+      *
+      * @param url The URL from which the client will download the resource
+      *     pack. The string must contain only US-ASCII characters and should
+@@ -1183,8 +1194,112 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
+      * @throws IllegalArgumentException Thrown if the URL is null.
+      * @throws IllegalArgumentException Thrown if the URL is too long. The
+      *     length restriction is an implementation specific arbitrary value.
++     * @deprecated use {@link #setResourcePack(String, String)}
+      */
+-    public void setResourcePack(String url);
++    @Deprecated
++    default void setResourcePack(String url) {
++        setResourcePack(url, "null");
++    }
++
++    /**
++     * Request that the player's client download and switch resource packs.
++     * <p>
++     * The player's client will download the new resource pack asynchronously
++     * in the background, and will automatically switch to it once the
++     * download is complete. If the client has downloaded and cached a
++     * resource pack with the same hash in the past it will not download but
++     * directly apply the cached pack. If the hash is null and the client has
++     * downloaded and cached the same resource pack in the past, it will
++     * perform a file size check against the response content to determine if
++     * the resource pack has changed and needs to be downloaded again. When
++     * this request is sent for the very first time from a given server, the
++     * client will first display a confirmation GUI to the player before
++     * proceeding with the download.
++     * <p>
++     * Notes:
++     * <ul>
++     * <li>Players can disable server resources on their client, in which
++     *     case this method will have no effect on them. Use the
++     *     {@link org.bukkit.event.player.PlayerResourcePackStatusEvent} to
++     *     figure out whether the player loaded the pack!
++     * <li>There is no concept of resetting resource packs back to default
++     *     within Minecraft, so players will have to relog to do so.
++     * </ul>
++     * <li>The request is sent with empty string as the hash when the hash is
++     *     not provided. This might result in newer versions not loading the
++     *     pack correctly.
++     * </ul>
++     *
++     * @deprecated in favour of {@link #sendResourcePacks(net.kyori.adventure.resource.ResourcePackRequest)}
++     * @param url The URL from which the client will download the resource
++     *     pack. The string must contain only US-ASCII characters and should
++     *     be encoded as per RFC 1738.
++     * @param hash The sha1 hash sum of the resource pack file which is used
++     *     to apply a cached version of the pack directly without downloading
++     *     if it is available. Hast to be 20 bytes long!
++     * @throws IllegalArgumentException Thrown if the URL is null.
++     * @throws IllegalArgumentException Thrown if the URL is too long. The
++     *     length restriction is an implementation specific arbitrary value.
++     * @throws IllegalArgumentException Thrown if the hash is not 20 bytes
++     *     long.
++     */
++    public void setResourcePack(String url, byte[] hash);
++
++    /**
++     * Request that the player's client download and switch resource packs.
++     * <p>
++     * The player's client will download the new resource pack asynchronously
++     * in the background, and will automatically switch to it once the
++     * download is complete. If the client has downloaded and cached a
++     * resource pack with the same hash in the past it will not download but
++     * directly apply the cached pack. If the hash is null and the client has
++     * downloaded and cached the same resource pack in the past, it will
++     * perform a file size check against the response content to determine if
++     * the resource pack has changed and needs to be downloaded again. When
++     * this request is sent for the very first time from a given server, the
++     * client will first display a confirmation GUI to the player before
++     * proceeding with the download.
++     * <p>
++     * Notes:
++     * <ul>
++     * <li>Players can disable server resources on their client, in which
++     *     case this method will have no effect on them. Use the
++     *     {@link org.bukkit.event.player.PlayerResourcePackStatusEvent} to
++     *     figure out whether the player loaded the pack!
++     * <li>There is no concept of resetting resource packs back to default
++     *     within Minecraft, so players will have to relog to do so.
++     * </ul>
++     * @param url The URL from which the client will download the resource
++     *     pack. The string must contain only US-ASCII characters and should
++     *     be encoded as per RFC 1738.
++     * @param hash A 40 character hexadecimal and lowercase SHA-1 digest of
++     *     the resource pack file.
++     * @throws IllegalArgumentException Thrown if the URL is null.
++     * @throws IllegalArgumentException Thrown if the URL is too long. The
++     *     length restriction is an implementation specific arbitrary value.
++     * @throws IllegalArgumentException Thrown if the hash is longer than
++     *     40 characters.
++     */
++    public void setResourcePack(String url, String hash);
++
++    /**
++     * @return The most recent resource pack status received from the player,
++     * or null if no status has ever been received from this player.
++     */
++    public org.bukkit.event.player.PlayerResourcePackStatusEvent.Status getResourcePackStatus();
++
++    /**
++     * @return The most recent resource pack hash received from the player,
++     * or null if no hash has ever been received from this player.
++     */
++    public String getResourcePackHash();
++
++    /**
++     * @return true if the last resource pack status received from this
++     * player was {@link org.bukkit.event.player.PlayerResourcePackStatusEvent.Status#SUCCESSFULLY_LOADED}
++     */
++    public boolean hasResourcePack();
++    // DashSpigot end
+ 
+     /**
+      * Gets the Scoreboard displayed to this player
+diff --git a/src/main/java/org/bukkit/event/player/PlayerResourcePackStatusEvent.java b/src/main/java/org/bukkit/event/player/PlayerResourcePackStatusEvent.java
+index 4c498016f4710b47dd837022bbe5f081ec4f3dae..d5ce7f68890b060078220c5260bdaec593d33361 100644
+--- a/src/main/java/org/bukkit/event/player/PlayerResourcePackStatusEvent.java
++++ b/src/main/java/org/bukkit/event/player/PlayerResourcePackStatusEvent.java
+@@ -5,18 +5,28 @@ import org.bukkit.event.HandlerList;
+ 
+ /**
+  * Called when a player takes action on a resource pack request sent via
+- * {@link Player#setResourcePack(java.lang.String)}.
++ * {@link Player#setResourcePack(String, String)}.
+  */
+ public class PlayerResourcePackStatusEvent extends PlayerEvent {
+ 
+     private static final HandlerList handlers = new HandlerList();
+     private final Status status;
++    private final String hash; // DashSpigot - Update Resource Pack API
+ 
+     public PlayerResourcePackStatusEvent(final Player who, Status resourcePackStatus) {
+         super(who);
+         this.status = resourcePackStatus;
++        this.hash = null; // DashSpigot - Update Resource Pack API
+     }
+ 
++    // DashSpigot start - Update Resource Pack API
++    public PlayerResourcePackStatusEvent(final Player who, Status resourcePackStatus, String hash) {
++        super(who);
++        this.status = resourcePackStatus;
++        this.hash = hash;
++    }
++    // DashSpigot end
++
+     /**
+      * Gets the status of this pack.
+      *
+@@ -26,6 +36,17 @@ public class PlayerResourcePackStatusEvent extends PlayerEvent {
+         return status;
+     }
+ 
++    // DashSpigot start - Update Resource Pack API
++    /**
++     * Gets the hash of this pack.
++     *
++     * @return the hash
++     */
++    public String getHash() {
++        return hash;
++    }
++    // DashSpigot end
++
+     @Override
+     public HandlerList getHandlers() {
+         return handlers;

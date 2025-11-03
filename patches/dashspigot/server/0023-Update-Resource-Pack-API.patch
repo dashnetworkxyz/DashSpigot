@@ -1,0 +1,102 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Sun, 2 Nov 2025 20:36:29 -0700
+Subject: [PATCH] Update Resource Pack API
+
+
+diff --git a/src/main/java/net/minecraft/server/PacketPlayInResourcePackStatus.java b/src/main/java/net/minecraft/server/PacketPlayInResourcePackStatus.java
+index 064374aa86192a7f5fb907ea32d2a684f8fe17bf..3f344533664ca6e9ccae817470d9d50cb20f9153 100644
+--- a/src/main/java/net/minecraft/server/PacketPlayInResourcePackStatus.java
++++ b/src/main/java/net/minecraft/server/PacketPlayInResourcePackStatus.java
+@@ -4,7 +4,7 @@ import java.io.IOException;
+ 
+ public class PacketPlayInResourcePackStatus implements Packet<PacketListenerPlayIn> {
+ 
+-    private String a;
++    public String a; // DashSpigot - Update Resource Pack API
+     public PacketPlayInResourcePackStatus.EnumResourcePackStatus b; // PAIL: private -> public, rename: status
+ 
+     public PacketPlayInResourcePackStatus() {}
+diff --git a/src/main/java/net/minecraft/server/PlayerConnection.java b/src/main/java/net/minecraft/server/PlayerConnection.java
+index 3df6d5bd628ddf45958677ff1f065addbdc4190c..b43051f6b61cbfbaa1492cc45171180f6514d50a 100644
+--- a/src/main/java/net/minecraft/server/PlayerConnection.java
++++ b/src/main/java/net/minecraft/server/PlayerConnection.java
+@@ -877,7 +877,12 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
+ 
+     // CraftBukkit start
+     public void a(PacketPlayInResourcePackStatus packetplayinresourcepackstatus) {
+-        this.server.getPluginManager().callEvent(new PlayerResourcePackStatusEvent(getPlayer(), PlayerResourcePackStatusEvent.Status.values()[packetplayinresourcepackstatus.b.ordinal()]));
++        // DashSpigot start - Update Resource Pack API
++        org.bukkit.event.player.PlayerResourcePackStatusEvent.Status status = PlayerResourcePackStatusEvent.Status.values()[packetplayinresourcepackstatus.b.ordinal()];
++        getPlayer().setResourcePackStatus(status);
++        getPlayer().setResourcePackHash(packetplayinresourcepackstatus.a);
++        this.server.getPluginManager().callEvent(new PlayerResourcePackStatusEvent(getPlayer(), status, packetplayinresourcepackstatus.a));
++        // DashSpigot end
+     }
+     // CraftBukkit end
+ 
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+index a0b14462327fc8c6c2abd593d129ea9205598616..c96ef25114d83f4b195daa3bbe0c690e5d9feb8f 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+@@ -80,6 +80,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+     private double health = 20;
+     private boolean scaledHealth = false;
+     private double healthScale = 20;
++    // DashSpigot start - Update Resource Pack API
++    private org.bukkit.event.player.PlayerResourcePackStatusEvent.Status resourcePackStatus;
++    private String resourcePackHash;
++    // DashSpigot end
+ 
+     public CraftPlayer(CraftServer server, EntityPlayer entity) {
+         super(server, entity);
+@@ -1339,18 +1343,45 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+         }
+     }
+ 
++    // DashSpigot start - Update Resource Pack API
+     @Override
+-    public void setTexturePack(String url) {
+-        setResourcePack(url);
++    public void setResourcePack(String url, byte[] hash) {
++        Validate.notNull(hash, "Resource pack hash cannot be null");
++        Validate.isTrue(hash.length == 20, "Resource pack hash should be 20 bytes long but was " + hash.length);
++        getHandle().setResourcePack(url, com.google.common.io.BaseEncoding.base16().lowerCase().encode(hash));
+     }
+ 
+     @Override
+-    public void setResourcePack(String url) {
++    public void setResourcePack(String url, String hash) {
+         Validate.notNull(url, "Resource pack URL cannot be null");
++        Validate.notNull(hash, "Resource pack hash cannot be null");
++        getHandle().setResourcePack(url, hash);
++    }
++
++    @Override
++    public org.bukkit.event.player.PlayerResourcePackStatusEvent.Status getResourcePackStatus() {
++        return resourcePackStatus;
++    }
++
++    @Override
++    public String getResourcePackHash() {
++        return resourcePackHash;
++    }
++
++    @Override
++    public boolean hasResourcePack() {
++        return resourcePackStatus == org.bukkit.event.player.PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED;
++    }
+ 
+-        getHandle().setResourcePack(url, "null");
++    public void setResourcePackHash(String hash) {
++        resourcePackHash = hash;
+     }
+ 
++    public void setResourcePackStatus(org.bukkit.event.player.PlayerResourcePackStatusEvent.Status status) {
++        resourcePackStatus = status;
++    }
++    // DashSpigot end
++
+     public void addChannel(String channel) {
+        com.google.common.base.Preconditions.checkState( channels.size() < 128, "Too many channels registered" ); // Spigot
+         if (channels.add(channel)) {
