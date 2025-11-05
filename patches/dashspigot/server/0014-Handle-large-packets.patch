@@ -39,14 +39,14 @@ index bb18dac7a3554a8a6cb93d24bc539901a4d9a89b..5d5da224604e791b61c87b31f172b2ad
      // PandaSpigot start
      /**
 diff --git a/src/main/java/net/minecraft/server/PacketEncoder.java b/src/main/java/net/minecraft/server/PacketEncoder.java
-index 58214e1449e964a009d3fc18983f4d02153ed3c0..98eaed03479b3a751f5de9bc50d6d0c4dec20084 100644
+index 58214e1449e964a009d3fc18983f4d02153ed3c0..d77b11037cd7852a7b9c34b80041e1baf089a13a 100644
 --- a/src/main/java/net/minecraft/server/PacketEncoder.java
 +++ b/src/main/java/net/minecraft/server/PacketEncoder.java
 @@ -14,6 +14,7 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
      private static final Logger a = LogManager.getLogger();
      private static final Marker b = MarkerManager.getMarker("PACKET_SENT", NetworkManager.b);
      private final EnumProtocolDirection c;
-+    private static int MAX_PACKET_SIZE = 2097152; // DashSpigot - Handle large packets
++    private static final int MAX_PACKET_SIZE = 2097152; // DashSpigot - Handle large packets
  
      public PacketEncoder(EnumProtocolDirection enumprotocoldirection) {
          this.c = enumprotocoldirection;
