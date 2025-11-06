@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Thu, 6 Nov 2025 00:50:53 -0700
+Subject: [PATCH] Only update rotation for living entities
+
+
+diff --git a/src/main/java/net/minecraft/server/EntityTrackerEntry.java b/src/main/java/net/minecraft/server/EntityTrackerEntry.java
+index 0b90b6f30ea09fb117281d5ddd2fc752d2c139b5..6c527f62301b82a89d20b1f1d4db64656f0379b6 100644
+--- a/src/main/java/net/minecraft/server/EntityTrackerEntry.java
++++ b/src/main/java/net/minecraft/server/EntityTrackerEntry.java
+@@ -410,12 +410,14 @@ public class EntityTrackerEntry {
+                         }
+                     }
+ 
+-                    // CraftBukkit start - Fix for nonsensical head yaw
+-                    this.i = MathHelper.d(this.tracker.getHeadRotation() * 256.0F / 360.0F);
+-                    entityplayer.playerConnection.sendPacket(new PacketPlayOutEntityHeadRotation(this.tracker, (byte) this.i)); // PandaSpigot - Don't broadcast
+-                    // CraftBukkit end
+-
+                     if (this.tracker instanceof EntityLiving) {
++                        // DashSpigot start - Only update rotation for living entities
++                        // CraftBukkit start - Fix for nonsensical head yaw
++                        this.i = MathHelper.d(this.tracker.getHeadRotation() * 256.0F / 360.0F);
++                        entityplayer.playerConnection.sendPacket(new PacketPlayOutEntityHeadRotation(this.tracker, (byte) this.i)); // PandaSpigot - Don't broadcast
++                        // CraftBukkit end
++                        // DashSpigot end
++
+                         EntityLiving entityliving = (EntityLiving) this.tracker;
+                         Iterator iterator = entityliving.getEffects().iterator();
+ 
