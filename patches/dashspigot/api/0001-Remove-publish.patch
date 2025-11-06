@@ -5,10 +5,10 @@ Subject: [PATCH] Remove publish
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 3802f6e3275dc62f39a1d17d1459d89902d1954b..796ce5db547d90f9e348b46d188823351cfa15e0 100644
+index 6e727d855493daeae6a2d8e649fad95ea25db1ce..4ee2340467421569856015f9d83576b1e80a44ce 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -83,61 +83,3 @@ tasks {
+@@ -86,61 +86,3 @@ tasks {
          }
      }
  }

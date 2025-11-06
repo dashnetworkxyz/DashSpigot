@@ -48,9 +48,11 @@ dependencies {
 
 ## Building
 To compile DashSpigot, you'll need:
-- JDK 8 (or above)
+- JDK 17 (required to run the decompiler)
 - Git
 - Bash
+
+🧩 Although JDK 17 is required for building, the compiled JAR remains fully compatible with Java 8.
 
 Building, patching, and compiling are all done through the main `dash` script.
 

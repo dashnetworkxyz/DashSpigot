@@ -24,12 +24,13 @@ tasks {
             }
         }
 
+        val inTask = project(":dashspigot-server").tasks["remap"] as RemapTask
+        val vanillaJar = project.rootProject.layout.projectDirectory.file("base/mc-dev/1.8.8.jar").asFile
+
         doFirst {
-            val inTask = project(":dashspigot-server").tasks["remap"] as RemapTask
             val diffFile = temporaryDir.resolve("dashspigot.patch")
             val propertiesFile = temporaryDir.resolve("patch.properties")
 
-            val vanillaJar = project.rootProject.layout.projectDirectory.file("base/mc-dev/1.8.8.jar").asFile
             val newJar = inTask.outJarFile.get().asFile
 
             logger.info("Reading jars into memory")
