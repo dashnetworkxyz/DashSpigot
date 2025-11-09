@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Sun, 9 Nov 2025 12:54:50 -0700
+Subject: [PATCH] Disable snooper
+
+
+diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
+index 3d438407f852e955d71a244fc13a7faab499ad91..2bd24bdb24656914cb32be212c4c8deea16a131c 100644
+--- a/src/main/java/net/minecraft/server/MinecraftServer.java
++++ b/src/main/java/net/minecraft/server/MinecraftServer.java
+@@ -791,6 +791,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
+         this.methodProfiler.a("tallying");
+         this.h[this.ticks % 100] = System.nanoTime() - i;
+         this.methodProfiler.b();
++        // DashSpigot start - Disable snooper
++        /*
+         this.methodProfiler.a("snooper");
+         if (getSnooperEnabled() && !this.n.d() && this.ticks > 100) {  // Spigot
+             this.n.a();
+@@ -801,6 +803,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
+         }
+ 
+         this.methodProfiler.b();
++         */
++        // DashSpigot end
+         this.methodProfiler.b();
+         org.spigotmc.WatchdogThread.tick(); // Spigot
+         // PandaSpigot start - Add ServerTickEndEvent
