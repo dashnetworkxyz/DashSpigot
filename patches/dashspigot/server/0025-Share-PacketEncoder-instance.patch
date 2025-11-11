@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Thu, 6 Nov 2025 10:36:06 -0700
+Subject: [PATCH] Share PacketEncoder instance
+
+
+diff --git a/src/main/java/net/minecraft/server/PacketEncoder.java b/src/main/java/net/minecraft/server/PacketEncoder.java
+index 6758a7810839ee23c6a17dd509d889c63852c887..239aac5a4ef153dc21708d3d30daddecdf3e3089 100644
+--- a/src/main/java/net/minecraft/server/PacketEncoder.java
++++ b/src/main/java/net/minecraft/server/PacketEncoder.java
+@@ -9,14 +9,16 @@ import org.apache.logging.log4j.Logger;
+ import org.apache.logging.log4j.Marker;
+ import org.apache.logging.log4j.MarkerManager;
+ 
++@io.netty.channel.ChannelHandler.Sharable // DashSpigot - Share PacketEncoder instance
+ public class PacketEncoder extends MessageToByteEncoder<Packet> {
+ 
++    public static final PacketEncoder INSTANCE = new PacketEncoder(EnumProtocolDirection.CLIENTBOUND); // DashSpigot - Share PacketEncoder instance
+     private static final Logger a = LogManager.getLogger();
+     private static final Marker b = MarkerManager.getMarker("PACKET_SENT", NetworkManager.b);
+     private final EnumProtocolDirection c;
+     private static final int MAX_PACKET_SIZE = 2097152; // DashSpigot - Handle large packets
+ 
+-    public PacketEncoder(EnumProtocolDirection enumprotocoldirection) {
++    private PacketEncoder(EnumProtocolDirection enumprotocoldirection) { // DashSpigot - Share PacketEncoder instance
+         this.c = enumprotocoldirection;
+     }
+ 
+diff --git a/src/main/java/net/minecraft/server/ServerConnection.java b/src/main/java/net/minecraft/server/ServerConnection.java
+index 882bf62cc8a08e51b5d315c608194a68ae025489..a4b388726f39df6c58976855c3850bbcde97c80d 100644
+--- a/src/main/java/net/minecraft/server/ServerConnection.java
++++ b/src/main/java/net/minecraft/server/ServerConnection.java
+@@ -121,7 +121,7 @@ public class ServerConnection {
+                         .addLast("splitter", new PacketSplitter())
+                         .addLast("decoder", new PacketDecoder(EnumProtocolDirection.SERVERBOUND))
+                         .addLast("prepender", PacketPrepender.INSTANCE) // PandaSpigot - Share PacketPrepender instance
+-                        .addLast("encoder", new PacketEncoder(EnumProtocolDirection.CLIENTBOUND));
++                        .addLast("encoder", PacketEncoder.INSTANCE); // DashSpigot - Share PacketEncoder instance
+                     // PandaSpigot end
+                     NetworkManager networkmanager = new NetworkManager(EnumProtocolDirection.SERVERBOUND);
+ 
