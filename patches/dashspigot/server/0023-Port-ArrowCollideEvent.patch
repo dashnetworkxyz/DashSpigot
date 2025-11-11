@@ -5,7 +5,7 @@ Subject: [PATCH] Port ArrowCollideEvent
 
 
 diff --git a/src/main/java/net/minecraft/server/EntityArrow.java b/src/main/java/net/minecraft/server/EntityArrow.java
-index beb7180e1d5dd4f2e439cb372dd1f7602a5acf49..1f5746f45cc6f6897b65c85a12f18d8a7c98621b 100644
+index b3c1b9c394e1cc4e7e823fdf537b33f07a68d77d..76e8532ca386a18377025d40580e85f35bdf5d5e 100644
 --- a/src/main/java/net/minecraft/server/EntityArrow.java
 +++ b/src/main/java/net/minecraft/server/EntityArrow.java
 @@ -232,7 +232,10 @@ public class EntityArrow extends Entity implements IProjectile {
