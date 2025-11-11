@@ -21,3 +21,16 @@ index e86e1f53ca39e5788fac5d7885990dbad1d102fe..b321c38cf68502415b8443eff6f36292
      }
  
      public void a(PacketListenerPlayOut packetlistenerplayout) {
+diff --git a/src/main/java/net/minecraft/server/PlayerConnection.java b/src/main/java/net/minecraft/server/PlayerConnection.java
+index b43051f6b61cbfbaa1492cc45171180f6514d50a..082aea73622fb740534643ceaed9d2c7a5b7959d 100644
+--- a/src/main/java/net/minecraft/server/PlayerConnection.java
++++ b/src/main/java/net/minecraft/server/PlayerConnection.java
+@@ -2102,7 +2102,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
+                 if (itemstack1 != null) {
+                     if (itemstack.getItem() == Items.WRITABLE_BOOK && itemstack.getItem() == itemstack1.getItem()) {
+                         if (!validateBook(itemstack)) return; // PandaSpigot
+-                        itemstack1 = new ItemStack(Items.WRITABLE_BOOK); // CraftBukkit
++                        //itemstack1 = new ItemStack(Items.WRITABLE_BOOK); // CraftBukkit // DashSpigot - Don't remove existing NBT
+                         itemstack1.a("pages", (NBTBase) itemstack.getTag().getList("pages", 8));
+                         CraftEventFactory.handleEditBookEvent(player, itemstack1); // CraftBukkit
+                     }
