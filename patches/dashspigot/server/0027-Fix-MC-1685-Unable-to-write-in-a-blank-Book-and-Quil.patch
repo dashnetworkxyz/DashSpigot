@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Tue, 11 Nov 2025 12:18:53 -0700
+Subject: [PATCH] Fix MC-1685: Unable to write in a blank Book and Quill after
+ renaming
+
+
+diff --git a/src/main/java/net/minecraft/server/PacketPlayOutSetSlot.java b/src/main/java/net/minecraft/server/PacketPlayOutSetSlot.java
+index e86e1f53ca39e5788fac5d7885990dbad1d102fe..b321c38cf68502415b8443eff6f3629288729c5b 100644
+--- a/src/main/java/net/minecraft/server/PacketPlayOutSetSlot.java
++++ b/src/main/java/net/minecraft/server/PacketPlayOutSetSlot.java
+@@ -14,6 +14,11 @@ public class PacketPlayOutSetSlot implements Packet<PacketListenerPlayOut> {
+         this.a = i;
+         this.b = j;
+         this.c = itemstack == null ? null : itemstack.cloneItemStack();
++
++        // DashSpigot start - Fix MC-1685: Unable to write in a blank Book and Quill after renaming
++        if (itemstack != null && itemstack.getItem() == Items.WRITABLE_BOOK)
++            itemstack.getTag().getList("pages", 8).add(new NBTTagString(""));
++        // DashSpigot end
+     }
+ 
+     public void a(PacketListenerPlayOut packetlistenerplayout) {
