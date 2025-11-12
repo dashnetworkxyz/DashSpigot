@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Wed, 12 Nov 2025 02:45:18 -0700
+Subject: [PATCH] Fix MC-161754
+
+
+diff --git a/src/main/java/net/minecraft/server/ContainerHorse.java b/src/main/java/net/minecraft/server/ContainerHorse.java
+index 155591a8d977d6642c80f21c082bae3fe1216ef5..760e92d2cef8cb693e83aa267051e11f2ff544fd 100644
+--- a/src/main/java/net/minecraft/server/ContainerHorse.java
++++ b/src/main/java/net/minecraft/server/ContainerHorse.java
+@@ -69,7 +69,7 @@ public class ContainerHorse extends Container {
+     }
+ 
+     public boolean a(EntityHuman entityhuman) {
+-        return this.a.a(entityhuman) && this.f.isAlive() && this.f.g((Entity) entityhuman) < 8.0F;
++        return this.a.a(entityhuman) && this.f.isAlive() && this.f.valid && this.f.g((Entity) entityhuman) < 8.0F; // DashSpigot - Fix MC-161754
+     }
+ 
+     public ItemStack b(EntityHuman entityhuman, int i) {
