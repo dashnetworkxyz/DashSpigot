@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Wed, 12 Nov 2025 03:27:11 -0700
+Subject: [PATCH] Fix teleport invisiblity
+
+
+diff --git a/src/main/java/net/minecraft/server/EntityTrackerEntry.java b/src/main/java/net/minecraft/server/EntityTrackerEntry.java
+index 6c527f62301b82a89d20b1f1d4db64656f0379b6..3e37c59ffa72aadb3ff4c85333b8ee90330aea46 100644
+--- a/src/main/java/net/minecraft/server/EntityTrackerEntry.java
++++ b/src/main/java/net/minecraft/server/EntityTrackerEntry.java
+@@ -155,7 +155,7 @@ public class EntityTrackerEntry {
+                         this.v = 0;
+                         // CraftBukkit start - Refresh list of who can see a player before sending teleport packet
+                         if (this.tracker instanceof EntityPlayer) {
+-                            this.scanPlayers(new java.util.ArrayList(this.trackedPlayers));
++                            this.scanPlayers(new java.util.ArrayList<>(this.tracker.world.players)); // DashSpigot - Fix teleport invisibility
+                         }
+                         // CraftBukkit end
+                         object = new PacketPlayOutEntityTeleport(this.tracker.getId(), i, j, k, (byte) l, (byte) i1, this.tracker.onGround);
