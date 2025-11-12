@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Wed, 12 Nov 2025 03:18:55 -0700
+Subject: [PATCH] Fix MC-128547: World stays in memory if player has hit an
+ entity in that world
+
+
+diff --git a/src/main/java/net/minecraft/server/EnchantmentManager.java b/src/main/java/net/minecraft/server/EnchantmentManager.java
+index 98656815ff5b4a176e145162d0077c30cb1ea1a6..ae1bb17855e38a7c9197f0f461da26362d3f9ea0 100644
+--- a/src/main/java/net/minecraft/server/EnchantmentManager.java
++++ b/src/main/java/net/minecraft/server/EnchantmentManager.java
+@@ -142,6 +142,7 @@ public class EnchantmentManager {
+         EnchantmentManager.b.a = 0;
+         EnchantmentManager.b.b = damagesource;
+         a((EnchantmentManager.EnchantmentModifier) EnchantmentManager.b, aitemstack);
++        EnchantmentManager.b.b = null; // DashSpigot - Fix MC-128547: World stays in memory if player has hit an entity in that world
+         if (EnchantmentManager.b.a > 25) {
+             EnchantmentManager.b.a = 25;
+         } else if (EnchantmentManager.b.a < 0) {
+@@ -169,6 +170,10 @@ public class EnchantmentManager {
+             a((EnchantmentManager.EnchantmentModifier) EnchantmentManager.d, entityliving.bA());
+         }
+ 
++        // DashSpigot start - Fix MC-128547: World stays in memory if player has hit an entity in that world
++        EnchantmentManager.d.b = null;
++        EnchantmentManager.d.a = null;
++        // DashSpigot end
+     }
+ 
+     public static void b(EntityLiving entityliving, Entity entity) {
+@@ -182,6 +187,10 @@ public class EnchantmentManager {
+             a((EnchantmentManager.EnchantmentModifier) EnchantmentManager.e, entityliving.bA());
+         }
+ 
++        // DashSpigot start - Fix MC-128547: World stays in memory if player has hit an entity in that world
++        EnchantmentManager.e.a = null;
++        EnchantmentManager.e.b = null;
++        // DashSpigot end
+     }
+ 
+     public static int a(EntityLiving entityliving) {
