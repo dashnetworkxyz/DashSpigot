@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Wed, 12 Nov 2025 03:49:23 -0700
+Subject: [PATCH] Fix MC-10657: Entering portal while sneaking
+
+
+diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
+index 46a90c5e43692bcfd30d007783a765eed6778fb3..61e2032d62fee486b7195dd37d19bd0f9d846cfe 100644
+--- a/src/main/java/net/minecraft/server/EntityPlayer.java
++++ b/src/main/java/net/minecraft/server/EntityPlayer.java
+@@ -574,6 +574,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+             TeleportCause cause = (this.dimension == 1 || i == 1) ? TeleportCause.END_PORTAL : TeleportCause.NETHER_PORTAL;
+         // DashSpigot end
+             this.server.getPlayerList().changeDimension(this, i, cause);
++            this.setSneaking(false); // DashSpigot - Fix MC-10657: Entering portal while sneaking
+             // CraftBukkit end
+             this.lastSentExp = -1;
+             this.bM = -1.0F;
+diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
+index ec2848176074617ca37c2237c7fea07fbc30ab3a..20900c106fbfec4ed8fdc02a3da799fc9b17245d 100644
+--- a/src/main/java/net/minecraft/server/PlayerList.java
++++ b/src/main/java/net/minecraft/server/PlayerList.java
+@@ -189,6 +189,7 @@ public abstract class PlayerList {
+             playerconnection.sendPacket(new PacketPlayOutEntityEffect(entityplayer.getId(), mobeffect));
+         }
+ 
++        entityplayer.setSneaking(false); // DashSpigot - Fix MC-10657: Entering portal while sneaking
+         entityplayer.syncInventory();
+         if (nbttagcompound != null && nbttagcompound.hasKeyOfType("Riding", 10)) {
+             Entity entity = EntityTypes.a(nbttagcompound.getCompound("Riding"), (World) worldserver);
