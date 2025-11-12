@@ -1,0 +1,18 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Wed, 12 Nov 2025 04:08:44 -0700
+Subject: [PATCH] Reset airTicks on respawn
+
+
+diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
+index 61e2032d62fee486b7195dd37d19bd0f9d846cfe..8bfab01628b210a2a46858c1c51f58637730ed9b 100644
+--- a/src/main/java/net/minecraft/server/EntityPlayer.java
++++ b/src/main/java/net/minecraft/server/EntityPlayer.java
+@@ -1222,6 +1222,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+ 
+         this.setHealth(this.getMaxHealth());
+         this.fireTicks = 0;
++        this.setAirTicks(300); // DashSpigot - Reset airTicks on respawn
+         this.fallDistance = 0;
+         this.foodData = new FoodMetaData(this);
+         this.expLevel = this.newLevel;
