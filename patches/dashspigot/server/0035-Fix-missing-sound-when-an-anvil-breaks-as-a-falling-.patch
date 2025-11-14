@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Fri, 14 Nov 2025 01:53:33 -0700
+Subject: [PATCH] Fix missing sound when an anvil breaks as a falling block
+
+
+diff --git a/src/main/java/net/minecraft/server/EntityFallingBlock.java b/src/main/java/net/minecraft/server/EntityFallingBlock.java
+index 4ed27bf9a31d06cc5d06d04cd3e46e91004eef35..09afef697da5ed7f4b9c2faf9e684c4550b0fe7a 100644
+--- a/src/main/java/net/minecraft/server/EntityFallingBlock.java
++++ b/src/main/java/net/minecraft/server/EntityFallingBlock.java
+@@ -149,6 +149,10 @@ public class EntityFallingBlock extends Entity {
+                             } else if (this.dropItem && this.world.getGameRules().getBoolean("doEntityDrops")) {
+                                 this.a(new ItemStack(block, 1, block.getDropData(this.block)), 0.0F);
+                             }
++                        // DashSpigot start - Fix missing sound when an anvil breaks as a falling block
++                        } else {
++                            world.triggerEffect(1020, blockposition, 0);
++                        // DashSpigot end
+                         }
+                     }
+                 } else if (this.ticksLived > 100 && !this.world.isClientSide && (blockposition.getY() < 1 || blockposition.getY() > 256) || this.ticksLived > 600) {
