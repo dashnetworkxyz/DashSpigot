@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Thu, 13 Nov 2025 22:15:14 -0700
+Subject: [PATCH] Fix MC-696: Cats stand when player is attacked
+
+
+diff --git a/src/main/java/net/minecraft/server/PathfinderGoalSit.java b/src/main/java/net/minecraft/server/PathfinderGoalSit.java
+index 5081b4fb6de86c95987c977c4e93eafb6937242c..c84ba6789ac2949896b5bdeea28b6c0c99fe3a52 100644
+--- a/src/main/java/net/minecraft/server/PathfinderGoalSit.java
++++ b/src/main/java/net/minecraft/server/PathfinderGoalSit.java
+@@ -20,7 +20,7 @@ public class PathfinderGoalSit extends PathfinderGoal {
+         } else {
+             EntityLiving entityliving = this.entity.getOwner();
+ 
+-            return entityliving == null ? true : (this.entity.h(entityliving) < 144.0D && entityliving.getLastDamager() != null ? false : this.willSit);
++            return entityliving == null ? true : (this.entity.h(entityliving) < 144.0D && entityliving.getLastDamager() != null && !(entity instanceof EntityOcelot) ? false : this.willSit); // DashSpigot - Fix MC-696: Cats unsit when player is attacked
+         }
+     }
+ 
