@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Thu, 13 Nov 2025 23:40:52 -0700
+Subject: [PATCH] Fix bottles moving slots when using a cauldron
+
+
+diff --git a/src/main/java/net/minecraft/server/BlockCauldron.java b/src/main/java/net/minecraft/server/BlockCauldron.java
+index 8b6c19f406d97490baf569216ec951937cec8861..73cc00af85bfc7d14fea32b030df01a2648121b7 100644
+--- a/src/main/java/net/minecraft/server/BlockCauldron.java
++++ b/src/main/java/net/minecraft/server/BlockCauldron.java
+@@ -79,6 +79,15 @@ public class BlockCauldron extends Block {
+                         if (!entityhuman.abilities.canInstantlyBuild) {
+                             ItemStack itemstack1 = new ItemStack(Items.POTION, 1, 0);
+ 
++                            // DashSpigot start - Fix bottles moving slots when using a cauldron
++                            if (itemstack.count == 1) {
++                                entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, itemstack1);
++                                entityhuman.b(StatisticList.J);
++                                this.a(world, blockposition, iblockdata, i - 1);
++                                return true;
++                            }
++                            // DashSpigot end
++
+                             if (!entityhuman.inventory.pickup(itemstack1)) {
+                                 world.addEntity(new EntityItem(world, (double) blockposition.getX() + 0.5D, (double) blockposition.getY() + 1.5D, (double) blockposition.getZ() + 0.5D, itemstack1));
+                             } else if (entityhuman instanceof EntityPlayer) {
