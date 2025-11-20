@@ -34,12 +34,12 @@ index f1c905aa0fb964bd728c63b851fa4800a77179ef..d1f1fb34a591cc71fae6050fcff57170
          if (--this.profession <= 0) {
              BlockPosition blockposition = new BlockPosition(this);
 diff --git a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-index d2a6d10dd7be7151a69c9c7ec76f98a5a40a58b6..971c89ecd412e80faf51c9a816be30e8e55922e8 100644
+index 8468d7afe1b5f2e5f51c08751d080ac7b67ca855..bbf5444d355c1935c8b36315d814011b43b696e3 100644
 --- a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 +++ b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-@@ -7,4 +7,11 @@ import org.spongepowered.configurate.objectmapping.meta.Comment;
- @SuppressWarnings({"FieldCanBeLocal", "FieldMayBeFinal"})
- public class DashSpigotWorldConfig {
+@@ -16,4 +16,11 @@ public class DashSpigotWorldConfig {
+     @Comment("Sets the default wolf collar color to be red. Fixes MC-54109")
+     public boolean wolfDefaultCollarRed = true;
  
 +    @Comment("Toggles whether or not villagers should be \"activated\" even if they are\n" +
 +        "outside of the activation range.\n" +
