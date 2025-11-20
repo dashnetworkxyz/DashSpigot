@@ -5,7 +5,7 @@ Subject: [PATCH] Fix MC-233: Portal travel sound doesn't play
 
 
 diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
-index c4c5b16c42719c802c928c871858f2c99021c9db..a82a78278b16088caa7e33449035e4023bfd92b7 100644
+index c4c5b16c42719c802c928c871858f2c99021c9db..e269df4726d977d7faf81a129fb8cff0a26158ac 100644
 --- a/src/main/java/net/minecraft/server/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/PlayerList.java
 @@ -719,6 +719,11 @@ public abstract class PlayerList {
@@ -13,10 +13,22 @@ index c4c5b16c42719c802c928c871858f2c99021c9db..a82a78278b16088caa7e33449035e402
  
          this.moveToWorld(entityplayer, exitWorld.dimension, true, exit, false); // Vanilla doesn't check for suffocation when handling portals, so neither should we
 +        // DashSpigot start - Fix MC-233: Portal travel sound doesn't play
-+        if (cause == TeleportCause.NETHER_PORTAL) {
++        if (xyz.dashnetwork.dashspigot.config.DashSpigotConfig.get().playPortalTravelSound && cause == TeleportCause.NETHER_PORTAL) {
 +            entityplayer.playerConnection.sendPacket(new PacketPlayOutNamedSoundEffect("portal.travel", entityplayer.locX, entityplayer.locY, entityplayer.locZ, 0.25F, entityplayer.random.nextFloat() * 0.4F + 0.8F));
 +        }
 +        // DashSpigot end
          if (entityplayer.motX != velocity.getX() || entityplayer.motY != velocity.getY() || entityplayer.motZ != velocity.getZ()) {
              entityplayer.getBukkitEntity().setVelocity(velocity);
          }
+diff --git a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotConfig.java b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotConfig.java
+index 55f6f41e446c4f8e2126f3286e4a1691f9c09fe9..131b92123add88cfc450d8a91785ec5d965587c3 100644
+--- a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotConfig.java
++++ b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotConfig.java
+@@ -96,4 +96,7 @@ public class DashSpigotConfig {
+         "\nthe player count in the client's server list.")
+     public int sampleCount = 12;
+ 
++    @Comment("Plays the portal.travel sound to players that travel through nether portals. Fixes MC-233")
++    public boolean playPortalTravelSound = true;
++
+ }

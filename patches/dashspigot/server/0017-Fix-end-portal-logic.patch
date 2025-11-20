@@ -97,7 +97,7 @@ index 7933d3191b9f61b4880d85ba99126bf9221a3dff..1e757c65426abf15428beb9b04c73fac
              // CraftBukkit end
              this.lastSentExp = -1;
 diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
-index a82a78278b16088caa7e33449035e4023bfd92b7..ec2848176074617ca37c2237c7fea07fbc30ab3a 100644
+index e269df4726d977d7faf81a129fb8cff0a26158ac..5ae401c320cc5ccd7cc9c2f7e499ca95e1ac9521 100644
 --- a/src/main/java/net/minecraft/server/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/PlayerList.java
 @@ -583,7 +583,7 @@ public abstract class PlayerList {
@@ -148,7 +148,7 @@ index a82a78278b16088caa7e33449035e4023bfd92b7..ec2848176074617ca37c2237c7fea07f
 -        this.moveToWorld(entityplayer, exitWorld.dimension, true, exit, false); // Vanilla doesn't check for suffocation when handling portals, so neither should we
 +        this.moveToWorld(entityplayer, exitWorld.dimension, true, exit, cause == TeleportCause.END_PORTAL && i == 0); // Vanilla doesn't check for suffocation when handling portals, so neither should we // DashSpigot - Check for suffocation on THE_END -> NORMAL
          // DashSpigot start - Fix MC-233: Portal travel sound doesn't play
-         if (cause == TeleportCause.NETHER_PORTAL) {
+         if (xyz.dashnetwork.dashspigot.config.DashSpigotConfig.get().playPortalTravelSound && cause == TeleportCause.NETHER_PORTAL) {
              entityplayer.playerConnection.sendPacket(new PacketPlayOutNamedSoundEffect("portal.travel", entityplayer.locX, entityplayer.locY, entityplayer.locZ, 0.25F, entityplayer.random.nextFloat() * 0.4F + 0.8F));
 @@ -779,7 +784,7 @@ public abstract class PlayerList {
              if (i == 1) {

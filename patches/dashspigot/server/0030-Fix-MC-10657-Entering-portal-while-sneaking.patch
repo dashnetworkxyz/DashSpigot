@@ -17,7 +17,7 @@ index 46a90c5e43692bcfd30d007783a765eed6778fb3..61e2032d62fee486b7195dd37d19bd0f
              this.lastSentExp = -1;
              this.bM = -1.0F;
 diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
-index ec2848176074617ca37c2237c7fea07fbc30ab3a..20900c106fbfec4ed8fdc02a3da799fc9b17245d 100644
+index 5ae401c320cc5ccd7cc9c2f7e499ca95e1ac9521..bdcd2556800f6c1acdc19e2de76cef8a4ebee945 100644
 --- a/src/main/java/net/minecraft/server/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/PlayerList.java
 @@ -189,6 +189,7 @@ public abstract class PlayerList {
