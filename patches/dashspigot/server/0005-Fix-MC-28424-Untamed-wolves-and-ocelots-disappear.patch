@@ -5,7 +5,7 @@ Subject: [PATCH] Fix MC-28424: Untamed wolves and ocelots disappear
 
 
 diff --git a/src/main/java/net/minecraft/server/EntityOcelot.java b/src/main/java/net/minecraft/server/EntityOcelot.java
-index edcb30792a28abf638012df334a2db626b3c4733..89c8eaac888f1c600ad36f5eda4049467c005cf2 100644
+index edcb30792a28abf638012df334a2db626b3c4733..a8c3bb67c90ad3c5457c0297cf4f196540d0667c 100644
 --- a/src/main/java/net/minecraft/server/EntityOcelot.java
 +++ b/src/main/java/net/minecraft/server/EntityOcelot.java
 @@ -52,7 +52,7 @@ public class EntityOcelot extends EntityTameableAnimal {
@@ -13,12 +13,12 @@ index edcb30792a28abf638012df334a2db626b3c4733..89c8eaac888f1c600ad36f5eda404946
  
      protected boolean isTypeNotPersistent() {
 -        return !this.isTamed() /*&& this.ticksLived > 2400*/; // CraftBukkit
-+        return false; // DashSpigot - Fix MC-28424: Untamed wolves and ocelots disappear
++        return !world.dashSpigotConfig.preventOcelotsFromDespawning && !this.isTamed() /*&& this.ticksLived > 2400*/; // CraftBukkit // DashSpigot - Fix MC-28424: Untamed wolves and ocelots disappear
      }
  
      protected void initAttributes() {
 diff --git a/src/main/java/net/minecraft/server/EntityWolf.java b/src/main/java/net/minecraft/server/EntityWolf.java
-index 469c87a179b452b5df06e79a6bc1d8e7fce07965..b262f3ac250d6f185ff7f466895df01dad28eb98 100644
+index 469c87a179b452b5df06e79a6bc1d8e7fce07965..8fde8671fbbeb5223d3d40f0b749c3d8008bee85 100644
 --- a/src/main/java/net/minecraft/server/EntityWolf.java
 +++ b/src/main/java/net/minecraft/server/EntityWolf.java
 @@ -378,7 +378,7 @@ public class EntityWolf extends EntityTameableAnimal {
@@ -26,7 +26,22 @@ index 469c87a179b452b5df06e79a6bc1d8e7fce07965..b262f3ac250d6f185ff7f466895df01d
  
      protected boolean isTypeNotPersistent() {
 -        return !this.isTamed() /*&& this.ticksLived > 2400*/; // CraftBukkit
-+        return false; // DashSpigot - Fix MC-28424: Untamed wolves and ocelots disappear
++        return !world.dashSpigotConfig.preventWolvesFromDespawning && !this.isTamed() /*&& this.ticksLived > 2400*/; // CraftBukkit // DashSpigot - Fix MC-28424: Untamed wolves and ocelots disappear
      }
  
      public boolean a(EntityLiving entityliving, EntityLiving entityliving1) {
+diff --git a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
+index d2a6d10dd7be7151a69c9c7ec76f98a5a40a58b6..507a3131cbc8552532a93e3a48baef295d06daae 100644
+--- a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
++++ b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
+@@ -7,4 +7,10 @@ import org.spongepowered.configurate.objectmapping.meta.Comment;
+ @SuppressWarnings({"FieldCanBeLocal", "FieldMayBeFinal"})
+ public class DashSpigotWorldConfig {
+ 
++    @Comment("Prevent ocelots from despawning when untamed. Fixes MC-28424")
++    public boolean preventOcelotsFromDespawning = true;
++
++    @Comment("Prevent wolves from despawning when tamed. Fixes MC-28424")
++    public boolean preventWolvesFromDespawning = true;
++
+ }
