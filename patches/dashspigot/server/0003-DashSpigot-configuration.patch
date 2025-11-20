@@ -17,7 +17,7 @@ index 8a302b2678916f862cac0c020fa3247043204e6a..700bc00bb70791ebc9c0212cae3b413a
              // PandaSpigot end
              // PaperSpigot start
 diff --git a/src/main/java/net/minecraft/server/World.java b/src/main/java/net/minecraft/server/World.java
-index 76209406951365452b6614680e0b82d7fc017719..768a4398c926cc378284bb14b7c175be4a056223 100644
+index fe9b4ea7584587c4a4d198e01fc21838ec59f471..0e592d1c5bd03d490efa65794cff938643e8c691 100644
 --- a/src/main/java/net/minecraft/server/World.java
 +++ b/src/main/java/net/minecraft/server/World.java
 @@ -169,6 +169,8 @@ public abstract class World implements IBlockAccess {
