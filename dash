@@ -101,8 +101,8 @@ case "$1" in
     "c" | "clean")
         rm -rf DashSpigot-API
         rm -rf DashSpigot-Server
-		rm -rf PandaSpigot-API
-		rm -rf PandaSpigot-Server
+	rm -rf PandaSpigot-API
+	rm -rf PandaSpigot-Server
         rm -rf base
         echo "Cleaned build files"
     ;;
@@ -181,7 +181,7 @@ case "$1" in
         echo "  * setup               | Remap, decompile, and patch Minecraft. Can be run from anywhere."
         echo "  * p, patch            | Apply all patches to the project without building it. Can be run from anywhere."
         echo "  * j, jar              | Apply all patches and build the project, paperclip.jar will be output. Can be run from anywhere."
-		echo "  * b, build            | Builds the project and paperclip.jar without applying patches. Can be run from anywhere."
+	echo "  * b, build            | Builds the project and paperclip.jar without applying patches. Can be run from anywhere."
         echo "  * c, clean            | Removes all generated files, DashSpigot-API, DashSpigot-Server, PandaSpigot-API, PandaSpigot-Server, and work."
         echo "  * con, continue       | Shortcut command for running git am --continue, or git rebase --continue."
         echo ""
