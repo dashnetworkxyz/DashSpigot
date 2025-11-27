@@ -1,0 +1,61 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Thu, 16 Oct 2025 10:30:17 -0600
+Subject: [PATCH] Fix SPIGOT-3894: Entities in lazy chunks receive inactive
+ ticks
+
+
+diff --git a/src/main/java/net/minecraft/server/Entity.java b/src/main/java/net/minecraft/server/Entity.java
+index 9d8bb72b469163db7def78f623d18dc4056b1f6b..b5324c3bbfbb8315d65076d37463b2dcc7d959e6 100644
+--- a/src/main/java/net/minecraft/server/Entity.java
++++ b/src/main/java/net/minecraft/server/Entity.java
+@@ -117,6 +117,8 @@ public abstract class Entity implements ICommandListener {
+     private double as;
+     public boolean ad;
+     // PaperSpigot start - EAR: Fix bug with teleporting entities
++    // DashSpigot start- EAR no longer needs this
++    /*
+     public boolean isAddedToChunk() {
+         int chunkX = MathHelper.floor(locX / 16.0D);
+         int chunkY = MathHelper.floor(locY / 16.0D);
+@@ -124,9 +126,11 @@ public abstract class Entity implements ICommandListener {
+ 
+         return ad && getChunkX() == chunkX && getChunkY() == chunkY || getChunkZ() == chunkZ;
+     }
+-    public int ae; public int getChunkX() { return ae; } // PAIL
+-    public int af; public int getChunkY() { return af; } // PAIL
+-    public int ag; public int getChunkZ() { return ag; } // PAIL
++     */
++    public int ae; //public int getChunkX() { return ae; } // PAIL
++    public int af; //public int getChunkY() { return af; } // PAIL
++    public int ag; //public int getChunkZ() { return ag; } // PAIL
++    // DashSpigot end
+     // PaperSpigot end
+     public boolean ah;
+     public boolean ai;
+diff --git a/src/main/java/net/minecraft/server/World.java b/src/main/java/net/minecraft/server/World.java
+index 768a4398c926cc378284bb14b7c175be4a056223..982bfe7d5667083e6b59e65c09d443a0066250f9 100644
+--- a/src/main/java/net/minecraft/server/World.java
++++ b/src/main/java/net/minecraft/server/World.java
+@@ -1761,7 +1761,7 @@ public abstract class World implements IBlockAccess {
+         byte b0 = 32;
+ 
+         // Spigot start
+-        if (!org.spigotmc.ActivationRange.checkIfActive(entity)) {
++        if (flag && !org.spigotmc.ActivationRange.checkIfActive(entity)) { // DashSpigot - Fix SPIGOT-3894: Entities in lazy chunks receive inactive ticks
+             entity.ticksLived++;
+             entity.inactiveTick();
+             // PaperSpigot start - Remove entities in unloaded chunks
+diff --git a/src/main/java/org/spigotmc/ActivationRange.java b/src/main/java/org/spigotmc/ActivationRange.java
+index 90b7238567952a7ee365f9c1fef3d9a5e10e7a80..10dc21a63b74860d883857afe7c20c4de474bcf5 100644
+--- a/src/main/java/org/spigotmc/ActivationRange.java
++++ b/src/main/java/org/spigotmc/ActivationRange.java
+@@ -255,7 +255,7 @@ public class ActivationRange
+     {
+         SpigotTimings.checkIfActiveTimer.startTiming();
+         // Never safe to skip fireworks or entities not yet added to chunk
+-        if ( !entity.isAddedToChunk() || entity instanceof EntityFireworks || entity.loadChunks ) { // PaperSpigot
++        if ( !entity.ad || entity instanceof EntityFireworks || entity.loadChunks ) { // PaperSpigot // DashSpigot - Revert to entity.ad
+             SpigotTimings.checkIfActiveTimer.stopTiming();
+             return true;
+         }
