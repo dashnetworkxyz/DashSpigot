@@ -27,7 +27,7 @@ index 558ab56e5f2e670dc17e8ffd39d8f09d6d2cd12e..76352fee00484ea963e2f97ac0817391
              this.b(world, blockposition, iblockdata, 0);
              world.setTypeAndData(blockposition, Blocks.AIR.getBlockData(), 3);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index be99c5e50e79d3f985911fb9e95e7120c2e5b442..ddcc0773984ec49d0c6283f1f838db32a843e0d6 100644
+index 9df666bbf26c64d716965610524ef7325fafa854..05264406e810d04d7e065c3eaad9cc5afeeba662 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -875,7 +875,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
@@ -40,10 +40,10 @@ index be99c5e50e79d3f985911fb9e95e7120c2e5b442..ddcc0773984ec49d0c6283f1f838db32
                  this.methodProfiler.a(worldserver.getWorldData().getName());
                  /* Drop global time updates
 diff --git a/src/main/java/net/minecraft/server/World.java b/src/main/java/net/minecraft/server/World.java
-index fe9b4ea7584587c4a4d198e01fc21838ec59f471..76209406951365452b6614680e0b82d7fc017719 100644
+index 0e592d1c5bd03d490efa65794cff938643e8c691..768a4398c926cc378284bb14b7c175be4a056223 100644
 --- a/src/main/java/net/minecraft/server/World.java
 +++ b/src/main/java/net/minecraft/server/World.java
-@@ -598,14 +598,14 @@ public abstract class World implements IBlockAccess {
+@@ -601,14 +601,14 @@ public abstract class World implements IBlockAccess {
              try {
                  // CraftBukkit start
                  CraftWorld world = ((WorldServer) this).getWorld();
@@ -61,7 +61,7 @@ index fe9b4ea7584587c4a4d198e01fc21838ec59f471..76209406951365452b6614680e0b82d7
                  iblockdata.getBlock().doPhysics(this, blockposition, iblockdata, block);
              } catch (StackOverflowError stackoverflowerror) { // Spigot Start
 diff --git a/src/main/java/net/minecraft/server/WorldServer.java b/src/main/java/net/minecraft/server/WorldServer.java
-index 99eb33eef6e11f76385afd536a921e5cffa21cb8..547e76a6074202da4637d5c80774d5f5628c6bbc 100644
+index 864b63f20167491ecef7e51be7d170d8b141d166..d54dc7f6468018aba8b4a9bb23d9897495d1dc28 100644
 --- a/src/main/java/net/minecraft/server/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/WorldServer.java
 @@ -50,7 +50,7 @@ public class WorldServer extends World implements IAsyncTaskHandler {

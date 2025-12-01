@@ -5,7 +5,7 @@ Subject: [PATCH] Fix missing sound when an anvil breaks as a falling block
 
 
 diff --git a/src/main/java/net/minecraft/server/EntityFallingBlock.java b/src/main/java/net/minecraft/server/EntityFallingBlock.java
-index 4ed27bf9a31d06cc5d06d04cd3e46e91004eef35..09afef697da5ed7f4b9c2faf9e684c4550b0fe7a 100644
+index 4ed27bf9a31d06cc5d06d04cd3e46e91004eef35..55c3e1dab33b34729c7ef4a4359113c6ac4b66da 100644
 --- a/src/main/java/net/minecraft/server/EntityFallingBlock.java
 +++ b/src/main/java/net/minecraft/server/EntityFallingBlock.java
 @@ -149,6 +149,10 @@ public class EntityFallingBlock extends Entity {
@@ -13,9 +13,21 @@ index 4ed27bf9a31d06cc5d06d04cd3e46e91004eef35..09afef697da5ed7f4b9c2faf9e684c45
                                  this.a(new ItemStack(block, 1, block.getDropData(this.block)), 0.0F);
                              }
 +                        // DashSpigot start - Fix missing sound when an anvil breaks as a falling block
-+                        } else {
++                        } else if (world.dashSpigotConfig.playAnvilBreakOnFall) {
 +                            world.triggerEffect(1020, blockposition, 0);
 +                        // DashSpigot end
                          }
                      }
                  } else if (this.ticksLived > 100 && !this.world.isClientSide && (blockposition.getY() < 1 || blockposition.getY() > 256) || this.ticksLived > 600) {
+diff --git a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
+index 09cfa3db8c85a0e8f6031fbd317cfc0782573134..e5020e9b1714255020a56aa3e450c0e2bd02c7e2 100644
+--- a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
++++ b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
+@@ -26,4 +26,7 @@ public class DashSpigotWorldConfig {
+     @Comment("Whether to allow hoppers to load chunks.")
+     public boolean hopperCanLoadChunks = false;
+ 
++    @Comment("Plays random.anvil_break when an anvil breaks as a falling block")
++    public boolean playAnvilBreakOnFall = true;
++
+ }
