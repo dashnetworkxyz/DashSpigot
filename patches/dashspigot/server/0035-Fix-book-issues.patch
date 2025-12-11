@@ -24,9 +24,18 @@ index e86e1f53ca39e5788fac5d7885990dbad1d102fe..e272c6527f18161ec4a870fa6af026ac
  
      public void a(PacketListenerPlayOut packetlistenerplayout) {
 diff --git a/src/main/java/net/minecraft/server/PlayerConnection.java b/src/main/java/net/minecraft/server/PlayerConnection.java
-index b43051f6b61cbfbaa1492cc45171180f6514d50a..c1733eadee8781bc35d94a33fe97d08312c29bc4 100644
+index b43051f6b61cbfbaa1492cc45171180f6514d50a..ad61e19fa4d7b8bd6fd1b1b73127c3cff716b427 100644
 --- a/src/main/java/net/minecraft/server/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/PlayerConnection.java
+@@ -2053,7 +2053,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
+                     }
+                 }
+             }
+-            byteAllowed += (maxBookPageSize * Math.min(1, Math.max(0.1D, (double) length / 255D))) * multiplier;
++            byteAllowed += (long) ((maxBookPageSize * Math.min(1, Math.max(0.1D, (double) length / 255D))) * multiplier); // DashSpigot - Explicit long cast
+ 
+             if (multibytes > 1) {
+                 // penalize MB
 @@ -2102,7 +2102,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
                  if (itemstack1 != null) {
                      if (itemstack.getItem() == Items.WRITABLE_BOOK && itemstack.getItem() == itemstack1.getItem()) {
@@ -36,7 +45,7 @@ index b43051f6b61cbfbaa1492cc45171180f6514d50a..c1733eadee8781bc35d94a33fe97d083
                          itemstack1.a("pages", (NBTBase) itemstack.getTag().getList("pages", 8));
                          CraftEventFactory.handleEditBookEvent(player, itemstack1); // CraftBukkit
                      }
-@@ -2146,7 +2146,13 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
+@@ -2146,7 +2146,15 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
                          itemstack1 = new ItemStack(Items.WRITTEN_BOOK);
                          itemstack1.a("author", (NBTBase) (new NBTTagString(this.player.getName())));
                          itemstack1.a("title", (NBTBase) (new NBTTagString(itemstack.getTag().getString("title"))));
@@ -44,7 +53,9 @@ index b43051f6b61cbfbaa1492cc45171180f6514d50a..c1733eadee8781bc35d94a33fe97d083
 +                        // DashSpigot start - Improve book security
 +                        NBTTagList pages = itemstack.getTag().getList("pages", 8);
 +                        for (int i = 0; i < pages.size(); i++) {
-+                            pages.a(i, new NBTTagString(IChatBaseComponent.ChatSerializer.a(new ChatComponentText(pages.getString(i)))));
++                            pages.a(i, new NBTTagString(IChatBaseComponent.ChatSerializer.a(
++                                new ChatComponentText(pages.getString(i)).setChatModifier(null)
++                            )));
 +                        }
 +                        itemstack1.a("pages", pages);
 +                        // DashSpigot end
