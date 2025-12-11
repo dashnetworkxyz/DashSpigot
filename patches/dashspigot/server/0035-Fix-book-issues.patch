@@ -24,7 +24,7 @@ index e86e1f53ca39e5788fac5d7885990dbad1d102fe..e272c6527f18161ec4a870fa6af026ac
  
      public void a(PacketListenerPlayOut packetlistenerplayout) {
 diff --git a/src/main/java/net/minecraft/server/PlayerConnection.java b/src/main/java/net/minecraft/server/PlayerConnection.java
-index b43051f6b61cbfbaa1492cc45171180f6514d50a..ad61e19fa4d7b8bd6fd1b1b73127c3cff716b427 100644
+index b43051f6b61cbfbaa1492cc45171180f6514d50a..a52db6be82711f1d238a2a5172ec8df6499cae85 100644
 --- a/src/main/java/net/minecraft/server/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/PlayerConnection.java
 @@ -2053,7 +2053,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
@@ -45,7 +45,7 @@ index b43051f6b61cbfbaa1492cc45171180f6514d50a..ad61e19fa4d7b8bd6fd1b1b73127c3cf
                          itemstack1.a("pages", (NBTBase) itemstack.getTag().getList("pages", 8));
                          CraftEventFactory.handleEditBookEvent(player, itemstack1); // CraftBukkit
                      }
-@@ -2146,7 +2146,15 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
+@@ -2146,7 +2146,13 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
                          itemstack1 = new ItemStack(Items.WRITTEN_BOOK);
                          itemstack1.a("author", (NBTBase) (new NBTTagString(this.player.getName())));
                          itemstack1.a("title", (NBTBase) (new NBTTagString(itemstack.getTag().getString("title"))));
@@ -53,9 +53,7 @@ index b43051f6b61cbfbaa1492cc45171180f6514d50a..ad61e19fa4d7b8bd6fd1b1b73127c3cf
 +                        // DashSpigot start - Improve book security
 +                        NBTTagList pages = itemstack.getTag().getList("pages", 8);
 +                        for (int i = 0; i < pages.size(); i++) {
-+                            pages.a(i, new NBTTagString(IChatBaseComponent.ChatSerializer.a(
-+                                new ChatComponentText(pages.getString(i)).setChatModifier(null)
-+                            )));
++                            pages.a(i, new NBTTagString(IChatBaseComponent.ChatSerializer.a(pages.getString(i)).getText()));
 +                        }
 +                        itemstack1.a("pages", pages);
 +                        // DashSpigot end
