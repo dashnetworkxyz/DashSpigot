@@ -5,7 +5,7 @@ Subject: [PATCH] Update Resource Pack API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index a67a54fecb8e9290f9615254aeb664bae515bb13..4acce732c1598e19131ae4c3d27567a0e7469139 100644
+index e3f1a47f202f560f705bb06b9f3438f323fec82e..26f66e1acdbb91862abebf6f331c899f33e47544 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -1126,6 +1126,7 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline

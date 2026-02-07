@@ -5,7 +5,7 @@ Subject: [PATCH] Handle large packets
 
 
 diff --git a/src/main/java/net/minecraft/server/NetworkManager.java b/src/main/java/net/minecraft/server/NetworkManager.java
-index 333a230030cc065515e42b9b5beecaee11901800..da1d0aa975c6056d8f1979132f8926a8471708b5 100644
+index 9ff04c5016f1b8f339975559b8cf619f1841da82..28bc04a9e42ad28554587b12fab28bf212e4b390 100644
 --- a/src/main/java/net/minecraft/server/NetworkManager.java
 +++ b/src/main/java/net/minecraft/server/NetworkManager.java
 @@ -166,6 +166,16 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
@@ -109,10 +109,10 @@ index 48fcdafeb56f5cae5361d3981170d58c0b5b717b..1f07794d31513d1a8e136bcce0ac662e
          packetdataserializer.writeByte(this.b);
      }
 diff --git a/src/main/java/net/minecraft/server/PacketPlayOutWindowItems.java b/src/main/java/net/minecraft/server/PacketPlayOutWindowItems.java
-index 905bfd94b6bb0f0b9c1e31c4a1d35535cf9eb959..4ba3831c2cd7e28f11c99a16d5151bde315c4d5d 100644
+index 9593e442b1b353bba060a32f3d4ea75fb9f8d2ae..4c85b15afde30c3332e064a8313dd3b11457036a 100644
 --- a/src/main/java/net/minecraft/server/PacketPlayOutWindowItems.java
 +++ b/src/main/java/net/minecraft/server/PacketPlayOutWindowItems.java
-@@ -47,4 +47,15 @@ public class PacketPlayOutWindowItems implements Packet<PacketListenerPlayOut> {
+@@ -49,4 +49,15 @@ public class PacketPlayOutWindowItems implements Packet<PacketListenerPlayOut> {
      public void a(PacketListenerPlayOut packetlistenerplayout) {
          packetlistenerplayout.a(this);
      }

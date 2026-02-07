@@ -5,7 +5,7 @@ Subject: [PATCH] Action bar API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index a58967fb8ca6b16b52dd5b6b9031bb3844a29b7a..a67a54fecb8e9290f9615254aeb664bae515bb13 100644
+index 9ef233b8d928d1c53e203e34943dee3d72268b5f..e3f1a47f202f560f705bb06b9f3438f323fec82e 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -396,6 +396,32 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline

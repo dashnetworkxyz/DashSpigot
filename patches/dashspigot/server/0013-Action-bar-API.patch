@@ -5,7 +5,7 @@ Subject: [PATCH] Action bar API
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 12bbe2cd6316a3db1efa3e8faf5fc547d32825b3..e95024a8ccf771080613fb540f143beeb6624c0d 100644
+index 371906750db087081309f7263de5dfa0c3b61090..36091c55a6f6edd6472218d57f80cee97628d2d9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -179,6 +179,37 @@ public class CraftPlayer extends CraftHumanEntity implements Player {

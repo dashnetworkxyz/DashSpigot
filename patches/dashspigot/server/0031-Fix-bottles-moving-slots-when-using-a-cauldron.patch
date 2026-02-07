@@ -5,10 +5,10 @@ Subject: [PATCH] Fix bottles moving slots when using a cauldron
 
 
 diff --git a/src/main/java/net/minecraft/server/BlockCauldron.java b/src/main/java/net/minecraft/server/BlockCauldron.java
-index 8b6c19f406d97490baf569216ec951937cec8861..73cc00af85bfc7d14fea32b030df01a2648121b7 100644
+index 30344761ff4d078d1c5a2066c773f96534368c49..e90bf16bd9c7d905c4c7f24ea422884b9c6c52c1 100644
 --- a/src/main/java/net/minecraft/server/BlockCauldron.java
 +++ b/src/main/java/net/minecraft/server/BlockCauldron.java
-@@ -79,6 +79,15 @@ public class BlockCauldron extends Block {
+@@ -85,6 +85,15 @@ public class BlockCauldron extends Block {
                          if (!entityhuman.abilities.canInstantlyBuild) {
                              ItemStack itemstack1 = new ItemStack(Items.POTION, 1, 0);
  

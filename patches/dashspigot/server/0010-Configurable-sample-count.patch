@@ -5,7 +5,7 @@ Subject: [PATCH] Configurable sample count
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index ddcc0773984ec49d0c6283f1f838db32a843e0d6..42c4551cedfc639db90cc6e88cb1075faa5d1386 100644
+index 3c781840bcd7be8efcc778a48798dd3058b7928d..792d64c44d5e93589c4a423eacef0d6120c554fc 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -758,7 +758,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs

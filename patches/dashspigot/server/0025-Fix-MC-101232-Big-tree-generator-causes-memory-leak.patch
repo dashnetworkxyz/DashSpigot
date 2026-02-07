@@ -5,10 +5,10 @@ Subject: [PATCH] Fix MC-101232: Big tree generator causes memory leak
 
 
 diff --git a/src/main/java/net/minecraft/server/WorldGenBigTree.java b/src/main/java/net/minecraft/server/WorldGenBigTree.java
-index 0007495d1a20ffc17745e30bb9bc50537c4b5803..3dfe1ea8672f705f022b7f42624f3a3e685b5f8a 100644
+index fa61f0afbeb3e59a12ae47a43cc87e0bb675c5a5..2962fcb74a321fc6f9ee6bd5e45ce54be737e0b7 100644
 --- a/src/main/java/net/minecraft/server/WorldGenBigTree.java
 +++ b/src/main/java/net/minecraft/server/WorldGenBigTree.java
-@@ -239,12 +239,14 @@ public class WorldGenBigTree extends WorldGenTreeAbstract {
+@@ -241,12 +241,14 @@ public class WorldGenBigTree extends WorldGenTreeAbstract {
          }
  
          if (!this.f()) {
