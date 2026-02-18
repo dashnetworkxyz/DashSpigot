@@ -18,11 +18,11 @@ index 8fde8671fbbeb5223d3d40f0b749c3d8008bee85..becafe415d182729d3ab4ccde11e22c7
  
      protected void a(BlockPosition blockposition, Block block) {
 diff --git a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-index 507a3131cbc8552532a93e3a48baef295d06daae..8468d7afe1b5f2e5f51c08751d080ac7b67ca855 100644
+index 3ea5f78010b51a8f4fdbc05788d963a0e2eb04b7..2a7e238b397222b729898739399f4397922b6375 100644
 --- a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 +++ b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 @@ -13,4 +13,7 @@ public class DashSpigotWorldConfig {
-     @Comment("Prevent wolves from despawning when tamed. Fixes MC-28424")
+     @Comment("Prevent wolves from despawning when untamed. Fixes MC-28424")
      public boolean preventWolvesFromDespawning = true;
  
 +    @Comment("Sets the default wolf collar color to be red. Fixes MC-54109")

@@ -31,7 +31,7 @@ index 469c87a179b452b5df06e79a6bc1d8e7fce07965..8fde8671fbbeb5223d3d40f0b749c3d8
  
      public boolean a(EntityLiving entityliving, EntityLiving entityliving1) {
 diff --git a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-index d2a6d10dd7be7151a69c9c7ec76f98a5a40a58b6..507a3131cbc8552532a93e3a48baef295d06daae 100644
+index d2a6d10dd7be7151a69c9c7ec76f98a5a40a58b6..3ea5f78010b51a8f4fdbc05788d963a0e2eb04b7 100644
 --- a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 +++ b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 @@ -7,4 +7,10 @@ import org.spongepowered.configurate.objectmapping.meta.Comment;
@@ -41,7 +41,7 @@ index d2a6d10dd7be7151a69c9c7ec76f98a5a40a58b6..507a3131cbc8552532a93e3a48baef29
 +    @Comment("Prevent ocelots from despawning when untamed. Fixes MC-28424")
 +    public boolean preventOcelotsFromDespawning = true;
 +
-+    @Comment("Prevent wolves from despawning when tamed. Fixes MC-28424")
++    @Comment("Prevent wolves from despawning when untamed. Fixes MC-28424")
 +    public boolean preventWolvesFromDespawning = true;
 +
  }
