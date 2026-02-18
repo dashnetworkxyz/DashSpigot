@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Wed, 12 Nov 2025 02:54:04 -0700
+Subject: [PATCH] Fix MC-101232: Big tree generator causes memory leak
+
+
+diff --git a/src/main/java/net/minecraft/server/WorldGenBigTree.java b/src/main/java/net/minecraft/server/WorldGenBigTree.java
+index fa61f0afbeb3e59a12ae47a43cc87e0bb675c5a5..2962fcb74a321fc6f9ee6bd5e45ce54be737e0b7 100644
+--- a/src/main/java/net/minecraft/server/WorldGenBigTree.java
++++ b/src/main/java/net/minecraft/server/WorldGenBigTree.java
+@@ -241,12 +241,14 @@ public class WorldGenBigTree extends WorldGenTreeAbstract {
+         }
+ 
+         if (!this.f()) {
++            this.l = null; // DashSpigot - Fix MC-101232: Big tree generator causes memory leak
+             return false;
+         } else {
+             this.a();
+             this.b();
+             this.c();
+             this.d();
++            this.l = null; // DashSpigot - Fix MC-101232: Big tree generator causes memory leak
+             return true;
+         }
+     }

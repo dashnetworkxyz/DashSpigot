@@ -1,0 +1,130 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <constant4337@molecularmail.com>
+Date: Thu, 16 Oct 2025 19:47:52 -0600
+Subject: [PATCH] Handle large packets
+
+
+diff --git a/src/main/java/net/minecraft/server/NetworkManager.java b/src/main/java/net/minecraft/server/NetworkManager.java
+index 9ff04c5016f1b8f339975559b8cf619f1841da82..28bc04a9e42ad28554587b12fab28bf212e4b390 100644
+--- a/src/main/java/net/minecraft/server/NetworkManager.java
++++ b/src/main/java/net/minecraft/server/NetworkManager.java
+@@ -166,6 +166,16 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
+     }
+ 
+     public void exceptionCaught(ChannelHandlerContext channelhandlercontext, Throwable throwable) throws Exception {
++        // DashSpigot start - Handle large packets
++        if (throwable instanceof io.netty.handler.codec.EncoderException && throwable.getCause() instanceof PacketEncoder.PacketTooLargeException) {
++            if (((PacketEncoder.PacketTooLargeException) throwable.getCause()).getPacket().packetTooLarge(this)) {
++                return;
++            } else {
++                throwable = throwable.getCause();
++            }
++        }
++        // DashSpigot end
++
+         ChatMessage chatmessage;
+ 
+         if (throwable instanceof TimeoutException) {
+diff --git a/src/main/java/net/minecraft/server/Packet.java b/src/main/java/net/minecraft/server/Packet.java
+index bb18dac7a3554a8a6cb93d24bc539901a4d9a89b..5d5da224604e791b61c87b31f172b2ad2e422f0d 100644
+--- a/src/main/java/net/minecraft/server/Packet.java
++++ b/src/main/java/net/minecraft/server/Packet.java
+@@ -8,6 +8,8 @@ public interface Packet<T extends PacketListener> {
+ 
+     void b(PacketDataSerializer packetdataserializer) throws IOException;
+ 
++    default boolean packetTooLarge(NetworkManager manager) { return false; } // DashSpigot - Handle large packets
++
+     void a(T t0);
+     // PandaSpigot start
+     /**
+diff --git a/src/main/java/net/minecraft/server/PacketEncoder.java b/src/main/java/net/minecraft/server/PacketEncoder.java
+index 9ebae0b5a96c0f4e5f6475e41251b4d4d519c86a..6758a7810839ee23c6a17dd509d889c63852c887 100644
+--- a/src/main/java/net/minecraft/server/PacketEncoder.java
++++ b/src/main/java/net/minecraft/server/PacketEncoder.java
+@@ -14,6 +14,7 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
+     private static final Logger a = LogManager.getLogger();
+     private static final Marker b = MarkerManager.getMarker("PACKET_SENT", NetworkManager.b);
+     private final EnumProtocolDirection c;
++    private static final int MAX_PACKET_SIZE = 2097152; // DashSpigot - Handle large packets
+ 
+     public PacketEncoder(EnumProtocolDirection enumprotocoldirection) {
+         this.c = enumprotocoldirection;
+@@ -43,10 +44,32 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
+                 PacketEncoder.a.error(throwable);
+             }
+ 
++            // DashSpigot start - Handle large packets
++            int packetLength = bytebuf.readableBytes();
++
++            if (packetLength > MAX_PACKET_SIZE) {
++                throw new PacketTooLargeException(packet, packetLength);
++            }
++            // DashSpigot end
+         }
+     }
+ 
+     protected void encode(ChannelHandlerContext channelhandlercontext, Packet object, ByteBuf bytebuf) throws Exception {
+         this.a(channelhandlercontext, object, bytebuf);
+     }
++
++    // DashSpigot start - Handle large packets
++    public static class PacketTooLargeException extends RuntimeException {
++        private final Packet<?> packet;
++
++        PacketTooLargeException(Packet<?> packet, int packetLength) {
++            super("PacketTooLarge - " + packet.getClass().getSimpleName() + " is " + packetLength + ". Max is " + MAX_PACKET_SIZE);
++            this.packet = packet;
++        }
++
++        public Packet<?> getPacket() {
++            return packet;
++        }
++    }
++    // DashSpigot end
+ }
+diff --git a/src/main/java/net/minecraft/server/PacketPlayOutChat.java b/src/main/java/net/minecraft/server/PacketPlayOutChat.java
+index 48fcdafeb56f5cae5361d3981170d58c0b5b717b..1f07794d31513d1a8e136bcce0ac662e1db379fb 100644
+--- a/src/main/java/net/minecraft/server/PacketPlayOutChat.java
++++ b/src/main/java/net/minecraft/server/PacketPlayOutChat.java
+@@ -27,6 +27,7 @@ public class PacketPlayOutChat implements Packet<PacketListenerPlayOut> {
+ 
+     public void b(PacketDataSerializer packetdataserializer) throws IOException {
+         // Spigot start
++        try { // DashSpigot - Handle large packets
+         // PandaSpigot start - Adventure
+         if (adventure$message != null) {
+             packetdataserializer.a(com.hpfxd.pandaspigot.adventure.PandaAdventure.asVanilla(adventure$message));
+@@ -36,6 +37,12 @@ public class PacketPlayOutChat implements Packet<PacketListenerPlayOut> {
+         } else {
+             packetdataserializer.a(this.a);
+         }
++        // DashSpigot start - Handle large packets
++        } catch (io.netty.handler.codec.EncoderException e) {
++            packetdataserializer.a(new ChatComponentText("Chat message was too large.")
++                .setChatModifier(new ChatModifier().setColor(EnumChatFormat.RED)));
++        }
++        // DashSpigot end
+         // Spigot end
+         packetdataserializer.writeByte(this.b);
+     }
+diff --git a/src/main/java/net/minecraft/server/PacketPlayOutWindowItems.java b/src/main/java/net/minecraft/server/PacketPlayOutWindowItems.java
+index 9593e442b1b353bba060a32f3d4ea75fb9f8d2ae..4c85b15afde30c3332e064a8313dd3b11457036a 100644
+--- a/src/main/java/net/minecraft/server/PacketPlayOutWindowItems.java
++++ b/src/main/java/net/minecraft/server/PacketPlayOutWindowItems.java
+@@ -49,4 +49,15 @@ public class PacketPlayOutWindowItems implements Packet<PacketListenerPlayOut> {
+     public void a(PacketListenerPlayOut packetlistenerplayout) {
+         packetlistenerplayout.a(this);
+     }
++
++    // DashSpigot start - Handle large packets
++    @Override
++    public boolean packetTooLarge(NetworkManager manager) {
++        for (int i = 0; i < this.b.length; i++) {
++            manager.handle(new PacketPlayOutSetSlot(this.a, i, this.b[i]));
++        }
++
++        return true;
++    }
++    // DashSpigot end
+ }

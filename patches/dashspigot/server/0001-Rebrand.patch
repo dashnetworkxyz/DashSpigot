@@ -1,18 +1,18 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: MasterDash5 <constant4337@molecularmail.com>
-Date: Wed, 15 Oct 2025 03:25:32 -0600
+Date: Fri, 6 Feb 2026 20:15:30 -0700
 Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 8c8aa2274fd97c9d3a2f24700f58e045e984f75d..d2fe82294ccc4cf25a0e1745c9c12e542a014a87 100644
+index c0fd3ececd9e5299e7dad7a37a2659083f554c70..b9a2b0e577b7b30807650d9058dd30fa0c2a603a 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -1,5 +1,5 @@
  plugins {
 -    id("pandaspigot.conventions")
-+    id("dashspigot.conventions")
-     id("com.gradleup.shadow") version "9.0.0-beta7"
++    id("dashspigot.conventions") // DashSpigot
+     id("com.gradleup.shadow") version "9.3.1"
  }
  
 @@ -11,7 +11,7 @@ repositories {
@@ -33,7 +33,7 @@ index 8c8aa2274fd97c9d3a2f24700f58e045e984f75d..d2fe82294ccc4cf25a0e1745c9c12e54
      standardInput = System.`in`
      workingDir = rootProject.layout.projectDirectory.dir(
          providers.gradleProperty("runWorkDir").orElse("run")
-@@ -110,7 +110,7 @@ tasks {
+@@ -115,7 +115,7 @@ tasks {
              attributes(
                  "Main-Class" to "org.bukkit.craftbukkit.Main",
                  "Implementation-Title" to "CraftBukkit",
@@ -43,7 +43,7 @@ index 8c8aa2274fd97c9d3a2f24700f58e045e984f75d..d2fe82294ccc4cf25a0e1745c9c12e54
                  "Specification-Title" to "Bukkit",
                  "Specification-Version" to project.version,
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 59464fbb8c611208197d1a4949eed660270311f1..be99c5e50e79d3f985911fb9e95e7120c2e5b442 100644
+index 8d36a79ab6abbf6c0f0bcf8ed4f6e2c852dbd86a..349008ccbbddd66da0c8cd2beedf618ab1aaa8f0 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1170,7 +1170,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
