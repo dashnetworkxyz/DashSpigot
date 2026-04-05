@@ -20,7 +20,7 @@ index 4ed27bf9a31d06cc5d06d04cd3e46e91004eef35..55c3e1dab33b34729c7ef4a4359113c6
                      }
                  } else if (this.ticksLived > 100 && !this.world.isClientSide && (blockposition.getY() < 1 || blockposition.getY() > 256) || this.ticksLived > 600) {
 diff --git a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-index 09cfa3db8c85a0e8f6031fbd317cfc0782573134..e5020e9b1714255020a56aa3e450c0e2bd02c7e2 100644
+index c6586f486643fe8873650cdf92beb7ac872e15f2..039a668b807425f421b2fecf7fb9f930c37ab89a 100644
 --- a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 +++ b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 @@ -26,4 +26,7 @@ public class DashSpigotWorldConfig {

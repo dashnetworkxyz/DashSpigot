@@ -5,10 +5,10 @@ Subject: [PATCH] Configurable sample count
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 3c781840bcd7be8efcc778a48798dd3058b7928d..792d64c44d5e93589c4a423eacef0d6120c554fc 100644
+index db038cb4e6a94d864a05f9cc973ef412417eb6ed..b6609daaaa8fc378515e85d031bd0151c103e8f6 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -758,7 +758,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
+@@ -761,7 +761,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
          if (i - this.X >= 5000000000L) {
              this.X = i;
              this.r.setPlayerSample(new ServerPing.ServerPingPlayerSample(this.J(), this.I()));

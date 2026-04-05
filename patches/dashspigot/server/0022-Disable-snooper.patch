@@ -5,10 +5,10 @@ Subject: [PATCH] Disable snooper
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 792d64c44d5e93589c4a423eacef0d6120c554fc..f2c8549c5d02298a604feef79a00689c189ccc7f 100644
+index b6609daaaa8fc378515e85d031bd0151c103e8f6..361469f257da487f5f708651865e8916c46ae017 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -791,6 +791,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
+@@ -794,6 +794,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
          this.methodProfiler.a("tallying");
          this.h[this.ticks % 100] = System.nanoTime() - i;
          this.methodProfiler.b();
@@ -17,7 +17,7 @@ index 792d64c44d5e93589c4a423eacef0d6120c554fc..f2c8549c5d02298a604feef79a00689c
          this.methodProfiler.a("snooper");
          if (getSnooperEnabled() && !this.n.d() && this.ticks > 100) {  // Spigot
              this.n.a();
-@@ -801,6 +803,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
+@@ -804,6 +806,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
          }
  
          this.methodProfiler.b();

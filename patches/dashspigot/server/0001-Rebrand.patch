@@ -5,14 +5,14 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index c0fd3ececd9e5299e7dad7a37a2659083f554c70..b9a2b0e577b7b30807650d9058dd30fa0c2a603a 100644
+index e9df20a48afde91bc88c653be4db02a17d4c475b..97bd1d0993550ec9f4dcbedeedba736523ca725a 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -1,5 +1,5 @@
  plugins {
 -    id("pandaspigot.conventions")
 +    id("dashspigot.conventions") // DashSpigot
-     id("com.gradleup.shadow") version "9.3.1"
+     id("com.gradleup.shadow") version "9.4.1"
  }
  
 @@ -11,7 +11,7 @@ repositories {
@@ -43,10 +43,10 @@ index c0fd3ececd9e5299e7dad7a37a2659083f554c70..b9a2b0e577b7b30807650d9058dd30fa
                  "Specification-Title" to "Bukkit",
                  "Specification-Version" to project.version,
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 8d36a79ab6abbf6c0f0bcf8ed4f6e2c852dbd86a..349008ccbbddd66da0c8cd2beedf618ab1aaa8f0 100644
+index 34c1abced43dbcb9a97b3a4b0d9e2b94997cdb9c..a3544fdddb11fd0edf98b0ad424fd360265332d0 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1170,7 +1170,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
+@@ -1173,7 +1173,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
      }
  
      public String getServerModName() {
