@@ -1,5 +1,5 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: MasterDash5 <constant4337@molecularmail.com>
+From: MasterDash5 <github@masterdash5.com>
 Date: Wed, 12 Nov 2025 03:49:23 -0700
 Subject: [PATCH] Fix MC-10657: Entering portal while sneaking
 
@@ -17,7 +17,7 @@ index 46a90c5e43692bcfd30d007783a765eed6778fb3..61e2032d62fee486b7195dd37d19bd0f
              this.lastSentExp = -1;
              this.bM = -1.0F;
 diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
-index 5ae401c320cc5ccd7cc9c2f7e499ca95e1ac9521..bdcd2556800f6c1acdc19e2de76cef8a4ebee945 100644
+index fa741ef0c840d53670ea05742dc6ba79e70413a7..09195ab55ac0e77afedf5a5f0ba8426c2dea993a 100644
 --- a/src/main/java/net/minecraft/server/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/PlayerList.java
 @@ -189,6 +189,7 @@ public abstract class PlayerList {

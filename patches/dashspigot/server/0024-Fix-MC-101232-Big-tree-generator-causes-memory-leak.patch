@@ -1,5 +1,5 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: MasterDash5 <constant4337@molecularmail.com>
+From: MasterDash5 <github@masterdash5.com>
 Date: Wed, 12 Nov 2025 02:54:04 -0700
 Subject: [PATCH] Fix MC-101232: Big tree generator causes memory leak
 

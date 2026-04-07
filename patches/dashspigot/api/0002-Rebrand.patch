@@ -1,11 +1,11 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: MasterDash5 <constant4337@molecularmail.com>
+From: MasterDash5 <github@masterdash5.com>
 Date: Thu, 16 Oct 2025 14:50:16 -0600
 Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 796ce5db547d90f9e348b46d188823351cfa15e0..7d18c765abed262bddac6e8e90786320c8a39ea6 100644
+index 4ee2340467421569856015f9d83576b1e80a44ce..608fcf7382a39cd7ab111aa2c2c052a0f4f535ed 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -1,5 +1,5 @@

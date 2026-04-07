@@ -1,5 +1,5 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: MasterDash5 <constant4337@molecularmail.com>
+From: MasterDash5 <github@masterdash5.com>
 Date: Wed, 15 Oct 2025 13:03:44 -0600
 Subject: [PATCH] Fix SPIGOT-3846: Deactivated villager AI prevents trade
  resets and door registration
@@ -34,7 +34,7 @@ index f1c905aa0fb964bd728c63b851fa4800a77179ef..d1f1fb34a591cc71fae6050fcff57170
          if (--this.profession <= 0) {
              BlockPosition blockposition = new BlockPosition(this);
 diff --git a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-index 8468d7afe1b5f2e5f51c08751d080ac7b67ca855..bbf5444d355c1935c8b36315d814011b43b696e3 100644
+index 2a7e238b397222b729898739399f4397922b6375..71427de31456acd2ea7f538164d8a0fa8c1fd250 100644
 --- a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 +++ b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 @@ -16,4 +16,11 @@ public class DashSpigotWorldConfig {
