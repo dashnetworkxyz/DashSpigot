@@ -1,5 +1,5 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: MasterDash5 <constant4337@molecularmail.com>
+From: MasterDash5 <github@masterdash5.com>
 Date: Mon, 20 Oct 2025 16:25:00 -0600
 Subject: [PATCH] Fix end portal logic
 
@@ -97,7 +97,7 @@ index 7933d3191b9f61b4880d85ba99126bf9221a3dff..1e757c65426abf15428beb9b04c73fac
              // CraftBukkit end
              this.lastSentExp = -1;
 diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
-index e269df4726d977d7faf81a129fb8cff0a26158ac..5ae401c320cc5ccd7cc9c2f7e499ca95e1ac9521 100644
+index e269df4726d977d7faf81a129fb8cff0a26158ac..fa741ef0c840d53670ea05742dc6ba79e70413a7 100644
 --- a/src/main/java/net/minecraft/server/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/PlayerList.java
 @@ -583,7 +583,7 @@ public abstract class PlayerList {
@@ -118,7 +118,7 @@ index e269df4726d977d7faf81a129fb8cff0a26158ac..5ae401c320cc5ccd7cc9c2f7e499ca95
 +                    BlockPosition randomSpawn = entityplayer.getSpawnPoint(this.server, exitWorld);
 +                    exit = new Location(exitWorld.getWorld(), randomSpawn.getX() + 0.5, randomSpawn.getY(), randomSpawn.getZ() + 0.5);
 +                } else {
-+                    exit.add(0.5, 0.10000000149011612, 0.5);
++                    exit.add(0.5, 0.1, 0.5);
 +                // DashSpigot end
                  }
              } else {

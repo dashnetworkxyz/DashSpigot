@@ -1,5 +1,5 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: MasterDash5 <constant4337@molecularmail.com>
+From: MasterDash5 <github@masterdash5.com>
 Date: Wed, 15 Oct 2025 17:52:42 -0600
 Subject: [PATCH] Allow hoppers to load chunks
 
@@ -18,7 +18,7 @@ index 760a0767eae7c148efd27c78a4a2f142507b75b7..ab01fb2a0278d3b784cc365b6682ec2a
  
          if (block.isTileEntity()) {
 diff --git a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-index bbf5444d355c1935c8b36315d814011b43b696e3..09cfa3db8c85a0e8f6031fbd317cfc0782573134 100644
+index 71427de31456acd2ea7f538164d8a0fa8c1fd250..c6586f486643fe8873650cdf92beb7ac872e15f2 100644
 --- a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 +++ b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 @@ -23,4 +23,7 @@ public class DashSpigotWorldConfig {

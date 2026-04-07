@@ -1,5 +1,5 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: MasterDash5 <constant4337@molecularmail.com>
+From: MasterDash5 <github@masterdash5.com>
 Date: Thu, 23 Oct 2025 23:31:37 -0600
 Subject: [PATCH] Fix MC-1555: Items get deleted when the crafting recipe
  overflows the inventory
