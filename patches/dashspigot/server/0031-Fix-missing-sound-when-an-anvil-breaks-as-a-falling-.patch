@@ -20,12 +20,12 @@ index 4ed27bf9a31d06cc5d06d04cd3e46e91004eef35..55c3e1dab33b34729c7ef4a4359113c6
                      }
                  } else if (this.ticksLived > 100 && !this.world.isClientSide && (blockposition.getY() < 1 || blockposition.getY() > 256) || this.ticksLived > 600) {
 diff --git a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-index c6586f486643fe8873650cdf92beb7ac872e15f2..039a668b807425f421b2fecf7fb9f930c37ab89a 100644
+index 68fa226ffd21098784352d01e613001be28a9d87..042cd93f0fbddbe617697f02a55b446e0a1e2148 100644
 --- a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 +++ b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-@@ -26,4 +26,7 @@ public class DashSpigotWorldConfig {
-     @Comment("Whether to allow hoppers to load chunks.")
-     public boolean hopperCanLoadChunks = false;
+@@ -27,4 +27,7 @@ public class DashSpigotWorldConfig {
+         "This includes hoppers loading adjacent chunks")
+     public boolean allowChunkLoaders = false;
  
 +    @Comment("Plays random.anvil_break when an anvil breaks as a falling block")
 +    public boolean playAnvilBreakOnFall = true;

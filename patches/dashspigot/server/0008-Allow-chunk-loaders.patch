@@ -1,0 +1,44 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <github@masterdash5.com>
+Date: Mon, 13 Apr 2026 11:00:29 -0600
+Subject: [PATCH] Allow chunk loaders
+
+
+diff --git a/src/main/java/net/minecraft/server/ChunkProviderServer.java b/src/main/java/net/minecraft/server/ChunkProviderServer.java
+index 041ede2857ddcc6fc8a4f52318ef4ba9d975782a..9ffc1a2a723ed8c9bb163b5af184e7110e5c7f0a 100644
+--- a/src/main/java/net/minecraft/server/ChunkProviderServer.java
++++ b/src/main/java/net/minecraft/server/ChunkProviderServer.java
+@@ -42,6 +42,7 @@ public class ChunkProviderServer implements IChunkProvider {
+         this.world = worldserver;
+         this.chunkLoader = ichunkloader;
+         this.chunkProvider = ichunkprovider;
++        this.forceChunkLoad = world.dashSpigotConfig.allowChunkLoaders; // DashSpigot - Allow chunk loaders
+     }
+ 
+     public boolean isChunkLoaded(int i, int j) {
+diff --git a/src/main/java/net/minecraft/server/TileEntityHopper.java b/src/main/java/net/minecraft/server/TileEntityHopper.java
+index 760a0767eae7c148efd27c78a4a2f142507b75b7..c89b2da7b5d115d6b5747f08db93d495057931b8 100644
+--- a/src/main/java/net/minecraft/server/TileEntityHopper.java
++++ b/src/main/java/net/minecraft/server/TileEntityHopper.java
+@@ -554,7 +554,7 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
+         int j = MathHelper.floor(d1);
+         int k = MathHelper.floor(d2);
+         BlockPosition blockposition = new BlockPosition(i, j, k);
+-        if ( !world.isLoaded( blockposition ) ) return null; // Spigot
++        if ( !world.isLoaded( blockposition ) && !world.dashSpigotConfig.allowChunkLoaders) return null; // Spigot // DashSpigot - Allow chunk loaders
+         Block block = world.getType(blockposition).getBlock();
+ 
+         if (block.isTileEntity()) {
+diff --git a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
+index 71427de31456acd2ea7f538164d8a0fa8c1fd250..68fa226ffd21098784352d01e613001be28a9d87 100644
+--- a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
++++ b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
+@@ -23,4 +23,8 @@ public class DashSpigotWorldConfig {
+         "have to stay near the village for a while for the villager trades to restock.")
+     public boolean tickInactiveVillagers = true;
+ 
++    @Comment("Toggles whether chunks can be forcefully loaded.\n" +
++        "This includes hoppers loading adjacent chunks")
++    public boolean allowChunkLoaders = false;
++
+ }
