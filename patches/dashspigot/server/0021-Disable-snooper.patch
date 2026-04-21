@@ -5,7 +5,7 @@ Subject: [PATCH] Disable snooper
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index b6609daaaa8fc378515e85d031bd0151c103e8f6..361469f257da487f5f708651865e8916c46ae017 100644
+index a76d3b9b73370568fbe34775ea7bcd8401f02d5c..55ae0803285dde275a0edd23e434b21c55da4a20 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -794,6 +794,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
