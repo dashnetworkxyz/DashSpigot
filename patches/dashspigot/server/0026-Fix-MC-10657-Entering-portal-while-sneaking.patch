@@ -5,19 +5,19 @@ Subject: [PATCH] Fix MC-10657: Entering portal while sneaking
 
 
 diff --git a/src/main/java/net/minecraft/server/EntityPlayer.java b/src/main/java/net/minecraft/server/EntityPlayer.java
-index 46a90c5e43692bcfd30d007783a765eed6778fb3..61e2032d62fee486b7195dd37d19bd0f9d846cfe 100644
+index 9557f736e884fe1400e8ca98cbe63c58bf9e84e1..8bb792b3a5e9fb1ee15f3cf37f96000c4bb0a74b 100644
 --- a/src/main/java/net/minecraft/server/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/EntityPlayer.java
-@@ -574,6 +574,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
-             TeleportCause cause = (this.dimension == 1 || i == 1) ? TeleportCause.END_PORTAL : TeleportCause.NETHER_PORTAL;
-         // DashSpigot end
+@@ -575,6 +575,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
+             TeleportCause cause = this.dimension == 1 || i == 1 ? TeleportCause.END_PORTAL : TeleportCause.NETHER_PORTAL;
+         // PandaSpigot end
              this.server.getPlayerList().changeDimension(this, i, cause);
 +            this.setSneaking(false); // DashSpigot - Fix MC-10657: Entering portal while sneaking
              // CraftBukkit end
              this.lastSentExp = -1;
              this.bM = -1.0F;
 diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
-index fa741ef0c840d53670ea05742dc6ba79e70413a7..09195ab55ac0e77afedf5a5f0ba8426c2dea993a 100644
+index 55720c1d66923863c3af263482128f0d700c745b..ec4f637b1a0ae78048bba4ace61900a1a610a3a5 100644
 --- a/src/main/java/net/minecraft/server/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/PlayerList.java
 @@ -189,6 +189,7 @@ public abstract class PlayerList {

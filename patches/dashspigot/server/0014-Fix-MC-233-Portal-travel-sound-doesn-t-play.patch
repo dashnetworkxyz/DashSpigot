@@ -5,10 +5,10 @@ Subject: [PATCH] Fix MC-233: Portal travel sound doesn't play
 
 
 diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
-index c4c5b16c42719c802c928c871858f2c99021c9db..e269df4726d977d7faf81a129fb8cff0a26158ac 100644
+index 9b6214d194cbd43bf14345610c360ae9f790bab2..55720c1d66923863c3af263482128f0d700c745b 100644
 --- a/src/main/java/net/minecraft/server/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/PlayerList.java
-@@ -719,6 +719,11 @@ public abstract class PlayerList {
+@@ -724,6 +724,11 @@ public abstract class PlayerList {
          exitWorld.chunkProviderServer.forceChunkLoad = before;
  
          this.moveToWorld(entityplayer, exitWorld.dimension, true, exit, false); // Vanilla doesn't check for suffocation when handling portals, so neither should we
