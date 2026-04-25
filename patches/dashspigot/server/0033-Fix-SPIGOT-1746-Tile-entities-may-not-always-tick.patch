@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MasterDash5 <github@masterdash5.com>
+Date: Sat, 25 Apr 2026 00:49:11 -0600
+Subject: [PATCH] Fix SPIGOT-1746: Tile entities may not always tick
+
+
+diff --git a/src/main/java/net/minecraft/server/World.java b/src/main/java/net/minecraft/server/World.java
+index 982bfe7d5667083e6b59e65c09d443a0066250f9..0cabdc140ae5411d28487c37c101f3f866986ad3 100644
+--- a/src/main/java/net/minecraft/server/World.java
++++ b/src/main/java/net/minecraft/server/World.java
+@@ -1707,6 +1707,11 @@ public abstract class World implements IBlockAccess {
+ 
+                     if (this.isLoaded(tileentity1.getPosition())) {
+                         this.getChunkAtWorldCoords(tileentity1.getPosition()).a(tileentity1.getPosition(), tileentity1);
++                        // DashSpigot start - From above. Fix SPIGOT-1746: Tile entities may not always tick
++                        if (!this.tileEntityList.contains(tileentity1)) {
++                            this.a(tileentity1);
++                        }
++                        // DashSpigot end
+                     }
+ 
+                     this.notify(tileentity1.getPosition());
