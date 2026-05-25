@@ -22,7 +22,7 @@ You can download the latest pre-built server JAR by clicking the download button
 
 <dependencies>
     <dependency>
-        <groupId>xyz.dashnetwork.dashspigot</groupId>
+        <groupId>xyz.dashnetwork</groupId>
         <artifactId>dashspigot-api</artifactId>
         <version>1.8.8-R0.1-SNAPSHOT</version>
         <scope>provided</scope>
@@ -42,7 +42,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("xyz.dashnetwork.dashspigot:dashspigot-api:1.8.8-R0.1-SNAPSHOT")
+    compileOnly("xyz.dashnetwork:dashspigot-api:1.8.8-R0.1-SNAPSHOT")
 }
 ```
 </details>
