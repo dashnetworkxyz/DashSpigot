@@ -34,10 +34,10 @@ index f1c905aa0fb964bd728c63b851fa4800a77179ef..d1f1fb34a591cc71fae6050fcff57170
          if (--this.profession <= 0) {
              BlockPosition blockposition = new BlockPosition(this);
 diff --git a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-index 2a7e238b397222b729898739399f4397922b6375..71427de31456acd2ea7f538164d8a0fa8c1fd250 100644
+index 7730fd4176077f07b4a759aaafd5d379c94d9ace..dc1682a306cdcaf2332d603e212063cab934ef06 100644
 --- a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 +++ b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-@@ -16,4 +16,11 @@ public class DashSpigotWorldConfig {
+@@ -13,4 +13,11 @@ public class DashSpigotWorldConfig {
      @Comment("Sets the default wolf collar color to be red. Fixes MC-54109")
      public boolean wolfDefaultCollarRed = true;
  

@@ -30,10 +30,10 @@ index 760a0767eae7c148efd27c78a4a2f142507b75b7..c89b2da7b5d115d6b5747f08db93d495
  
          if (block.isTileEntity()) {
 diff --git a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-index 71427de31456acd2ea7f538164d8a0fa8c1fd250..68fa226ffd21098784352d01e613001be28a9d87 100644
+index dc1682a306cdcaf2332d603e212063cab934ef06..5cd6c66b5cf5427331e382f6a2c4977b52da2e61 100644
 --- a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 +++ b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-@@ -23,4 +23,8 @@ public class DashSpigotWorldConfig {
+@@ -20,4 +20,8 @@ public class DashSpigotWorldConfig {
          "have to stay near the village for a while for the villager trades to restock.")
      public boolean tickInactiveVillagers = true;
  

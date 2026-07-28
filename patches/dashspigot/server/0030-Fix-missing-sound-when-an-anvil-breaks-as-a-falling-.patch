@@ -20,10 +20,10 @@ index 4ed27bf9a31d06cc5d06d04cd3e46e91004eef35..55c3e1dab33b34729c7ef4a4359113c6
                      }
                  } else if (this.ticksLived > 100 && !this.world.isClientSide && (blockposition.getY() < 1 || blockposition.getY() > 256) || this.ticksLived > 600) {
 diff --git a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-index 68fa226ffd21098784352d01e613001be28a9d87..042cd93f0fbddbe617697f02a55b446e0a1e2148 100644
+index 5cd6c66b5cf5427331e382f6a2c4977b52da2e61..066e76537faff326656391b2dff41df829e30049 100644
 --- a/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
 +++ b/src/main/java/xyz/dashnetwork/dashspigot/config/DashSpigotWorldConfig.java
-@@ -27,4 +27,7 @@ public class DashSpigotWorldConfig {
+@@ -24,4 +24,7 @@ public class DashSpigotWorldConfig {
          "This includes hoppers loading adjacent chunks")
      public boolean allowChunkLoaders = false;
  
