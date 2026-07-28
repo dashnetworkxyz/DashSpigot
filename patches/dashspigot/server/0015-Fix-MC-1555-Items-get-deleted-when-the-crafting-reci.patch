@@ -40,10 +40,10 @@ index a86f896b44dbdfe3d46e2e95634fbc9c7038aa2d..d65d4d07a0efe0c8264f06297b34b702
  
          return itemstack;
 diff --git a/src/main/java/net/minecraft/server/ContainerWorkbench.java b/src/main/java/net/minecraft/server/ContainerWorkbench.java
-index 48d524e54a6b9b13dd6d4b3863d328b97bce6a7e..e6bca129ed97e5657405e15a7e1739fbbbac92ca 100644
+index 78df2db46005cc9eeb7090a75aee55c02948075f..b0f1a35694f33baaba05f38849d9dbef7e4cea92 100644
 --- a/src/main/java/net/minecraft/server/ContainerWorkbench.java
 +++ b/src/main/java/net/minecraft/server/ContainerWorkbench.java
-@@ -123,6 +123,12 @@ public class ContainerWorkbench extends Container {
+@@ -125,6 +125,12 @@ public class ContainerWorkbench extends Container {
              }
  
              slot.a(entityhuman, itemstack1);

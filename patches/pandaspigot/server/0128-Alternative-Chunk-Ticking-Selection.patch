@@ -8,7 +8,7 @@ diff --git a/src/main/java/com/hpfxd/pandaspigot/config/PandaSpigotWorldConfig.j
 index 360ed37b95fce68941c234615b465090b8ea7308..aa2af045e8b5be60b5fae412c8dd29bd2e288639 100644
 --- a/src/main/java/com/hpfxd/pandaspigot/config/PandaSpigotWorldConfig.java
 +++ b/src/main/java/com/hpfxd/pandaspigot/config/PandaSpigotWorldConfig.java
-@@ -62,4 +62,17 @@ public class PandaSpigotWorldConfig {
+@@ -59,4 +59,15 @@ public class PandaSpigotWorldConfig {
      @Comment("This option controls whether or not there is a chance for arrow crits to deal extra damage.\n" +
              "By default, this is true (vanilla behaviour)")
      public boolean randomArrowDamage = true;
@@ -18,11 +18,9 @@ index 360ed37b95fce68941c234615b465090b8ea7308..aa2af045e8b5be60b5fae412c8dd29bd
 +        "selects chunks around players for ticking, improving performance at the cost\n" +
 +        "of deviating from vanilla chunk ticking behaviour (for example, plant growth\n" +
 +        "rates may differ).\n" +
-+        "\n" +
 +        "When disabled, uses PandaSpigot's chunk ticking implementation based on\n" +
 +        "the vanilla 1.9 algorithm, which more closely matches vanilla 1.8/1.9\n" +
 +        "behaviour while still providing performance optimizations.\n" +
-+        "\n" +
 +        "Default: false")
 +    public boolean useSpigotChunkTickingSelection = false;
  }
@@ -61,7 +59,7 @@ index 652c07975c7b3a3c5e3dc68cb60ca5fc52e1848c..d93670b5fd2ee58a7b1d4ccd2479cc43
          return (this.x << 4) + 8;
      }
 diff --git a/src/main/java/net/minecraft/server/PlayerChunkMap.java b/src/main/java/net/minecraft/server/PlayerChunkMap.java
-index 1c9dbe212cfbeb571f1e09f224fb7ed905dd475b..4e5139ff054fdec1f1c603f720b37a74f572196d 100644
+index 1c9dbe212cfbeb571f1e09f224fb7ed905dd475b..6a489b4514d565b47d930a6ed1abf94cd863cf54 100644
 --- a/src/main/java/net/minecraft/server/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/PlayerChunkMap.java
 @@ -1,5 +1,9 @@
@@ -101,7 +99,7 @@ index 1c9dbe212cfbeb571f1e09f224fb7ed905dd475b..4e5139ff054fdec1f1c603f720b37a74
 +                        continue;
 +                    }
 +
-+                    if (!chunk.u() && chunk.isDone()) {
++                    if (PlayerChunkMap.this.world.spigotConfig.randomLightUpdates && !chunk.u() && chunk.isDone()) {
 +                        return chunk;
 +                    }
 +
